@@ -2,9 +2,14 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-# Copia todos os arquivos do projeto
+# Install Dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy Code
 COPY . .
 
-# Comando para iniciar o servidor na porta definida pelo Railway ($PORT)
-# Se PORT não estiver definida, usa 8000
-CMD sh -c "python3 -m http.server ${PORT:-8000}"
+# Run Gunicorn
+# Bind to 0.0.0.0:$PORT (Railway Requirement)
+# Default PORT is 8000 if not set
+CMD sh -c "gunicorn app:app --bind 0.0.0.0:${PORT:-8000}"
