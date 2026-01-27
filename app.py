@@ -48,35 +48,62 @@ def create_payment():
             "payer": payer
         }
         
-        # 1. Create Transaction on WayMB
-        print(f"[Backend] Creating WayMB Transaction: amount={amount}, method={method}, phone={payer.get('phone')}") 
+        # 1. Create Transaction on WayMB (with Smart Retry for MBWAY Phone formats)
         
         headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0' # Anti-blocking
+            'User-Agent': 'Mozilla/5.0'
         }
+
+        r = None
+        resp = {}
         
-        r = requests.post("https://api.waymb.com/transactions/create", json=waymb_payload, headers=headers, timeout=15)
+        # Define formats to try
+        phones_to_try = []
+        if method == 'mbway':
+            raw_phone = str(payer.get('phone', '')).strip()
+            # Clean non-chars just in case, but keep + if present
+            clean = "".join(filter(lambda x: x.isdigit() or x == '+', raw_phone))
+            digits = "".join(filter(str.isdigit, raw_phone))
+            
+            phones_to_try.append(clean) # As sent by frontend
+            if len(digits) == 9: 
+                phones_to_try.append(f"351{digits}")  # 351 prefix
+                phones_to_try.append(f"+351{digits}") # +351 prefix
+            
+            # Remove duplicates preserving order
+            phones_to_try = list(dict.fromkeys(phones_to_try))
+        else:
+            phones_to_try = [payer.get('phone', '')] # Multibanco doesn't care about phone usually
+
+        # LOOP Attempts
+        success_found = False
         
-        try:
-            resp = r.json()
-        except:
-            resp = {"message": r.text}
+        for p in phones_to_try:
+            print(f"[Backend] Attempting MBWAY with phone: {p}")
+            waymb_payload['payer']['phone'] = p
+            
+            try:
+                r = requests.post("https://api.waymb.com/transactions/create", json=waymb_payload, headers=headers, timeout=15)
+                try:
+                    resp = r.json()
+                except:
+                    resp = {"message": r.text}
+                
+                # Check Success
+                if r.status_code == 200:
+                    if resp.get('statusCode') == 200 or resp.get('success') == True or 'transaction' in resp or 'id' in resp:
+                         success_found = True
+                         print(f"[Backend] Success with phone: {p}")
+                         break
+            except Exception as e:
+                print(f"[Backend] Request Error: {e}")
+                resp = {"message": str(e)}
 
-        print(f"[Backend] WayMB Response: {r.status_code} - {resp}")
+        print(f"[Backend] Final WayMB Response: {r.status_code if r else 'ERR'} - {resp}")
 
-        # Check Success logic
-        is_success = False
-        if r.status_code == 200:
-             if resp.get('statusCode') == 200 or resp.get('success') == True:
-                 is_success = True
-             if 'transaction' in resp or 'id' in resp: 
-                 is_success = True
-             if resp.get('status') == 'Pending': # Some APIs return Pending immediately
-                 is_success = True
-
-        if is_success:
+        if success_found:
             # 2. Trigger Pushcut on Success
             method_name = str(method).upper()
             amt = str(amount)
