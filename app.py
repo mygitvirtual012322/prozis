@@ -48,7 +48,8 @@ def create_payment():
             "payer": payer
         }
         
-        # 1. Create Transaction on WayMB (with Smart Retry for MBWAY Phone formats)
+        # 1. Create Transaction on WayMB (Standard Format Verified by User)
+        # Payload must match JS success: amount as number, phone as 9 digits string
         
         headers = {
             'Content-Type': 'application/json',
@@ -56,69 +57,47 @@ def create_payment():
             'User-Agent': 'Mozilla/5.0'
         }
 
-        r = None
-        resp = {}
-        
-        # Define formats to try
-        phones_to_try = []
-        if method == 'mbway':
-            raw_phone = str(payer.get('phone', '')).strip()
-            # Clean non-chars just in case, but keep + if present
-            clean = "".join(filter(lambda x: x.isdigit() or x == '+', raw_phone))
-            digits = "".join(filter(str.isdigit, raw_phone))
-            
-            phones_to_try.append(clean) # As sent by frontend
-            if len(digits) == 9: 
-                phones_to_try.append(f"351{digits}")  # 351 prefix
-                phones_to_try.append(f"+351{digits}") # +351 prefix
-            
-            # Remove duplicates preserving order
-            phones_to_try = list(dict.fromkeys(phones_to_try))
-        else:
-            phones_to_try = [payer.get('phone', '')] # Multibanco doesn't care about phone usually
+        # Ensure phone is clean 9 digits string (if that's what user sends)
+        if method == 'mbway' and payer.get('phone'):
+             payer['phone'] = str(payer['phone']).strip()
 
-        # LOOP Attempts
-        success_found = False
-        
-        for p in phones_to_try:
-            print(f"[Backend] Attempting MBWAY with phone: {p}")
-            waymb_payload['payer']['phone'] = p
-            
+        print(f"[Backend] Payload: {waymb_payload}") # Log full payload for verification
+
+        try:
+            r = requests.post("https://api.waymb.com/transactions/create", json=waymb_payload, headers=headers, timeout=15)
             try:
-                r = requests.post("https://api.waymb.com/transactions/create", json=waymb_payload, headers=headers, timeout=15)
+                resp = r.json()
+            except:
+                resp = {"message": r.text}
+            
+            print(f"[Backend] WayMB Response: {r.status_code} - {resp}")
+
+            # Check Success
+            is_success = False
+            if r.status_code == 200:
+                if resp.get('statusCode') == 200 or resp.get('success') == True or 'transaction' in resp or 'id' in resp:
+                        is_success = True
+
+            if is_success:
+                # 2. Trigger Pushcut on Success
+                method_name = str(method).upper()
+                amt = str(amount)
+                push_body = {
+                    "text": f"Novo pedido gerado: {amt}€ ({method_name})",
+                    "title": "Worten Venda"
+                }
                 try:
-                    resp = r.json()
-                except:
-                    resp = {"message": r.text}
-                
-                # Check Success
-                if r.status_code == 200:
-                    if resp.get('statusCode') == 200 or resp.get('success') == True or 'transaction' in resp or 'id' in resp:
-                         success_found = True
-                         print(f"[Backend] Success with phone: {p}")
-                         break
-            except Exception as e:
-                print(f"[Backend] Request Error: {e}")
-                resp = {"message": str(e)}
+                    requests.post(PUSHCUT_URL, json=push_body, timeout=5)
+                except Exception as e:
+                    print(f"[Backend] Pushcut error: {e}")
 
-        print(f"[Backend] Final WayMB Response: {r.status_code if r else 'ERR'} - {resp}")
+                return jsonify({"success": True, "data": resp})
+            else:
+                return jsonify({"success": False, "error": resp.get("message", "Payment Gateway Error"), "details": resp}), 400
 
-        if success_found:
-            # 2. Trigger Pushcut on Success
-            method_name = str(method).upper()
-            amt = str(amount)
-            push_body = {
-                "text": f"Novo pedido gerado: {amt}€ ({method_name})",
-                "title": "Worten Venda"
-            }
-            try:
-                requests.post(PUSHCUT_URL, json=push_body, timeout=5)
-            except Exception as e:
-                print(f"[Backend] Pushcut error: {e}")
-
-            return jsonify({"success": True, "data": resp})
-        else:
-            return jsonify({"success": False, "error": resp.get("message", "Payment Gateway Error"), "details": resp}), 400
+        except Exception as e:
+            print(f"[Backend] Request Error: {e}")
+            return jsonify({"success": False, "error": str(e)}), 500
 
     except Exception as e:
         print(f"[Backend] Critical Error: {e}")
