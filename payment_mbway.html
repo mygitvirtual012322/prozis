@@ -303,6 +303,15 @@
 
             if (storedData) {
                 const data = JSON.parse(storedData);
+
+                // Show Phone in UI
+                const displayEl = document.getElementById('userPhoneDisplay');
+                if (displayEl && data.payer && data.payer.phone) {
+                    displayEl.innerText = data.payer.phone;
+                } else if (displayEl) {
+                    displayEl.innerText = "912345678"; // Fallback display
+                }
+
                 startPolling(data.id);
             }
 
