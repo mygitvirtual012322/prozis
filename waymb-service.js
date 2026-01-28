@@ -27,6 +27,7 @@ class WayMBService {
      */
     async createTransaction(data) {
         try {
+            console.log('WayMB Proxy: Sending Data:', JSON.stringify(data));
             const response = await fetch('/api/payment', {
                 method: 'POST',
                 headers: {

@@ -29,13 +29,21 @@ def create_payment():
         # --- PRE-PROCESS PAYLOAD ---
         payer = data.get("payer", {})
         method = data.get("method")
-        amount = data.get("amount")
+        amount = data.get("amount", 9.00)
 
-        # Force float for amount to match 'number (float)' requirement strictly
+        # force float with 2 decimal places
         try:
-             amount = float(amount)
+            amount = round(float(amount), 2)
         except:
-             pass
+            amount = 9.00
+
+        # Special handling for MB WAY phone in payer
+        if method == "mbway" and "phone" in payer:
+            # Clean non-digits and ensure 9 digits
+            phone = str(payer["phone"]).replace(" ", "").replace("+351", "")
+            phone = "".join(filter(str.isdigit, phone))
+            if len(phone) > 9: phone = phone[-9:]
+            payer["phone"] = phone
 
         # Construct Secure Payload for WayMB
         waymb_payload = {
