@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showResult(segment) {
         const modalBtn = document.querySelector('#resultModal button');
-        const modalH2 = document.querySelector('.modal-content h2');
+        const modalH2 = document.querySelector('#resultModal h2'); // More specific selector
 
         if (segment.type === 'win') {
             // CELEBRATION
