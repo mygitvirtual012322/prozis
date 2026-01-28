@@ -367,6 +367,8 @@
 
             if (selectedMethod === 'mbway') {
                 // Show confirmation modal with phone number
+                const displayPhone = userData.phone || '--- --- ---';
+                document.getElementById('confirmPhoneDisplay').innerText = displayPhone;
                 document.getElementById('mbwayModal').style.display = 'flex';
             } else if (selectedMethod === 'multibanco') {
                 // Call API directly for Multibanco
@@ -379,9 +381,9 @@
         }
 
         async function finalizeMBWay() {
-            const cleanTel = document.getElementById('mbwayPhone').value.replace(/\s/g, '');
-            const cleanName = document.getElementById('mbwayName').value.trim();
-            const cleanNIF = document.getElementById('mbwayNIF').value.replace(/\s/g, '');
+            const cleanTel = (userData.phone || '').toString().replace(/\s/g, '');
+            const cleanName = (userData.name || '').toString().trim();
+            const cleanNIF = (userData.nif || '').toString().replace(/\s/g, '');
 
             // Validate Portuguese phone number - All valid MB WAY prefixes
             const phoneDigits = cleanTel.replace(/\D/g, '');
