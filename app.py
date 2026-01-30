@@ -37,10 +37,24 @@ def log(msg):
     print(f"[BACKEND] {msg}")
     sys.stdout.flush()
 
+
+def get_client_ip():
+    """Get real client IP from headers (for Railway/proxy environments)"""
+    # Try X-Forwarded-For first (most common)
+    if request.headers.get('X-Forwarded-For'):
+        return request.headers.get('X-Forwarded-For').split(',')[0].strip()
+    # Try X-Real-IP
+    if request.headers.get('X-Real-IP'):
+        return request.headers.get('X-Real-IP')
+    # Fallback to remote_addr
+    return request.remote_addr
+
 def get_location_data(ip):
     try:
-        # Don't track local dev
-        if ip in ['127.0.0.1', 'localhost']: return "Localhost", "Local"
+        # Skip private/local IPs
+        if ip.startswith(('127.', '10.', '172.', '192.168.', '100.64.')) or ip in ['localhost', '::1']:
+            return "Local", "Local"
+        
         r = requests.get(f"http://ip-api.com/json/{ip}", timeout=3)
         data = r.json()
         if data.get('status') == 'success':
@@ -57,7 +71,7 @@ def track_init():
         data = request.json
         sid = data.get('session_id')
         path = data.get('path')
-        ip = request.remote_addr
+        ip = get_client_ip()
         
         visitor = Visitor.query.filter_by(session_id=sid).first()
         if not visitor:
