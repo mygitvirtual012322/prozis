@@ -368,14 +368,16 @@ def create_payment():
                     flow = data.get("flow", "promo")  # Default to promo for backward compat
                     
                     if flow == "root":
-                        # ROOT Flow - Pushcut B
-                        target_pushcut = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications/Pendente%20delivery"
+                        # ROOT Flow - Single Pushcut B endpoint
+                        target_pushcut = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications/venda%20aprovada%20"
+                        msg = f"Pedido gerado: {amount}€ ({method.upper()})"
                     else:
-                        # PROMO Flow - Pushcut A
+                        # PROMO Flow - Single Pushcut A endpoint
                         target_pushcut = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications/Pendente%20delivery"
+                        msg = f"Pedido gerado: {amount}€ ({method.upper()})"
                     
                     requests.post(target_pushcut, json={
-                        "text": f"Pedido: {amount}€ ({method.upper()})",
+                        "text": msg,
                         "title": "Worten Promo"
                     }, timeout=3)
                 except: pass
@@ -423,23 +425,16 @@ def check_status():
 @app.route('/api/notify', methods=['POST'])
 def send_notification():
     data = request.json
-    type = data.get("type", "Pendente delivery")
     text = data.get("text", "Novo pedido")
     title = data.get("title", "Worten")
-    flow = data.get("flow", "promo")  # NEW: detect flow
+    flow = data.get("flow", "promo")
     
-    # Route based on flow, not amount
+    # Single endpoint per flow
     if flow == "root":
-        base_url = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications"
-        if type == "Aprovado delivery":
-            safe_type = "venda%20aprovada%20"
-        else:
-            safe_type = type.replace(' ', '%20')
+        url = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications/venda%20aprovada%20"
     else:  # promo
-        base_url = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications"
-        safe_type = type.replace(' ', '%20')
+        url = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications/Pendente%20delivery"
     
-    url = f"{base_url}/{safe_type}"
     try:
         requests.post(url, json={"text": text, "title": title}, timeout=5)
         return jsonify({"success": True})
@@ -466,7 +461,7 @@ def mbway_webhook():
         if flow == "root":
             target_pushcut = "https://api.pushcut.io/BUhzeYVmAEGsoX2PSQwh1/notifications/venda%20aprovada%20"
         else:
-            target_pushcut = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications/Aprovado%20delivery"
+            target_pushcut = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications/Pendente%20delivery"
         
         msg_text = f"Pagamento Confirmado: {amount}€" if amount > 0 else "Pagamento MBWAY Recebido!"
         
