@@ -199,8 +199,8 @@ body {
 }
 
 .prize-img {
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
     margin-top: 5px;
     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
