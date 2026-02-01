@@ -66,8 +66,8 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: #e32526;
-    box-shadow: 0 0 10px #e32526;
+    background: #25a01c;
+    box-shadow: 0 0 10px #25a01c;
     transition: width 1s ease;
 }
 
@@ -282,7 +282,7 @@ body {
 
 /* --- BUTTON --- */
 .spin-button {
-    background: var(--button-color);
+    background: #25a01c;
     border: none;
     padding: 16px 45px;
     font-size: 18px;
@@ -290,7 +290,7 @@ body {
     color: white;
     border-radius: 5px;
     /* Less rounded for Prozis sleek look */
-    box-shadow: var(--button-shadow);
+    box-shadow: 0 5px 0 #1a7013;
     cursor: pointer;
     text-transform: uppercase;
     animation: pulse 2s infinite;
@@ -300,7 +300,7 @@ body {
 
 .spin-button:active {
     transform: translateY(4px);
-    box-shadow: 0 1px 0 #990000;
+    box-shadow: 0 1px 0 #1a7013;
 }
 
 /* --- MODAL --- */
