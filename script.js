@@ -5,6 +5,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultModal = document.getElementById('resultModal');
     const resultText = document.getElementById('resultText');
 
+    // --- Generate Lights ---
+    function generateLights() {
+        if (!lightsContainer) return;
+        lightsContainer.innerHTML = ''; // Clear existing
+        const count = 40;
+        const radius = 166; // Fits in the 12px padding of 350px container (175px radius - ~9px)
+
+        for (let i = 0; i < count; i++) {
+            const bulb = document.createElement('div');
+            bulb.classList.add('light-bulb');
+            const angle = (i / count) * 360;
+            // Rotate to angle, push out to radius
+            bulb.style.transform = `rotate(${angle}deg) translate(${radius}px)`;
+            // Alternate blink delays
+            bulb.style.animationDelay = `${(i % 2) * 0.5}s`;
+            lightsContainer.appendChild(bulb);
+        }
+    }
+    generateLights();
+
     let currentRotation = 0;
     let isSpinning = false;
 
