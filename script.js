@@ -127,118 +127,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Configuration ---
     const segments = [
-        { id: 1, label: "VOUCHER 500€", type: "win" },
-        { id: 2, label: "TENTA DE NOVO", type: "loss" },
-        { id: 3, label: "IPHONE 15", type: "win" },
-        { id: 4, label: "TENTA DE NOVO", type: "loss" },
-        { id: 5, label: "MACBOOK AIR", type: "win" },
-        { id: 6, label: "TENTA DE NOVO", type: "loss" },
-        { id: 7, label: "PS5", type: "win" },
-        { id: 8, label: "TENTA DE NOVO", type: "loss" }
+        { id: 1, label: "KIT PROZIS", type: "win" },          // Index 0 (White)
+        { id: 2, label: "TENTE NOVAMENTE", type: "loss" },    // Index 1 (Black)
+        { id: 3, label: "FRITADEIRA", type: "win" },          // Index 2 (White)
+        { id: 4, label: "TENTE NOVAMENTE", type: "loss" },    // Index 3 (Black)
+        { id: 5, label: "WHEY + CREATINA", type: "win" },     // Index 4 (White)
+        { id: 6, label: "TENTE NOVAMENTE", type: "loss" },    // Index 5 (Black)
+        { id: 7, label: "BCAA 8:1:1", type: "win" },          // Index 6 (White)
+        { id: 8, label: "TENTE NOVAMENTE", type: "loss" }     // Index 7 (Black)
     ];
 
-    // --- Generate Lights on Rim ---
-    const numberOfLights = 24;
+    // ... (lines 140-234 skipped)
 
-    if (lightsContainer) {
-        for (let i = 0; i < numberOfLights; i++) {
-            const light = document.createElement('div');
-            light.classList.add('light-bulb');
-            // Angle step
-            const angle = (360 / numberOfLights) * i;
-            light.style.transform = `rotate(${angle}deg) translate(0, -165px)`;
-            light.style.animationDelay = `${i * 0.1}s`;
-            lightsContainer.appendChild(light);
-        }
-    }
-
-    // --- Responsive Scale Logic ---
-    function resizeWheel() {
-        const wrapper = document.querySelector('.roulette-wrapper');
-        if (!wrapper) return;
-
-        const containerWidth = window.innerWidth;
-        const baseWidth = 350; // Original width
-        const padding = 40; // Safety margin
-
-        if (containerWidth < (baseWidth + padding)) {
-            const scale = (containerWidth - padding) / baseWidth;
-            wrapper.style.transform = `scale(${scale})`;
-        } else {
-            wrapper.style.transform = `scale(1)`;
-        }
-    }
-
-    // Init and Listen
-    resizeWheel();
-    window.addEventListener('resize', resizeWheel);
-
-    // --- Spin Logic ---
     // --- Game State ---
     let spinsLeft = 3;
     const spinsCounterDisplay = document.getElementById('spinsLeftCount');
 
-    // --- Init Audio (Updated for Celebration) ---
-    // Keep existing initAudio, playTick
-
     function playCelebration() {
-        const audioCtx = AudioManager.getContext();
-        if (!audioCtx) return;
-        const now = audioCtx.currentTime;
-        // Victory Fanfare Sequence
-        const notes = [
-            523.25, 659.25, 783.99, 1046.50, // C E G C
-            783.99, 1046.50 // G C
-        ];
-        const durations = [0.2, 0.2, 0.2, 0.6, 0.2, 0.8];
-        let startTime = now;
-
-        notes.forEach((freq, i) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-
-            osc.type = 'triangle'; // Brighter sound
-            osc.frequency.value = freq;
-
-            gain.gain.setValueAtTime(0.2, startTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, startTime + durations[i] - 0.05);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start(startTime);
-            osc.stop(startTime + durations[i]);
-
-            startTime += durations[i];
-        });
+        // Implementation of celebration sound if needed or rely on playFanfare
     }
 
-    // --- Spin Logic (Refactored) ---
+    // --- Spin Logic ---
     async function runSpin() {
-        // Unlock Audio (Silent attempt)
         await AudioManager.unlock();
 
         if (isSpinning || spinsLeft <= 0) return;
 
-        // Decrement Start
         isSpinning = true;
         spinBtn.disabled = true;
         spinBtn.style.opacity = "0.5";
         spinBtn.innerText = "A RODAR...";
 
-        // LOGIC:
-        // if spinsLeft == 3 -> Loss (Index 1: Tenta de Novo)
-        // if spinsLeft == 2 -> Loss (Index 3: Tenta de Novo)
-        // if spinsLeft == 1 -> Win (Index 0: Voucher 500€) [LAST SPIN]
-
         let winningGlobalIndex;
-        if (spinsLeft === 3) winningGlobalIndex = 1;      // First Loss
-        else if (spinsLeft === 2) winningGlobalIndex = 3; // Second Loss
-        else winningGlobalIndex = 0;                      // Final Win
+        if (spinsLeft === 3) winningGlobalIndex = 1;      // First Loss (Tente Novamente - Index 1)
+        else if (spinsLeft === 2) winningGlobalIndex = 5; // Second Loss (Tente Novamente - Index 5)
+        else winningGlobalIndex = 0;                      // Final Win (Kit Prozis - Index 0)
 
         // Decrement counter
         spinsLeft--;
-        spinsCounterDisplay.innerText = spinsLeft;
+        if (spinsCounterDisplay) spinsCounterDisplay.innerText = spinsLeft;
         updateProgress();
 
         const minSpins = 5;
@@ -326,16 +253,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#d32f2f', '#ffcc00', '#ffffff'],
+                colors: ['#e32526', '#000000', '#ffffff'],
                 zIndex: 9999
             });
 
             resultText.innerHTML = `PARABÉNS!<br>GANHASTE: <strong>${segment.label}</strong>`;
             modalH2.innerText = "VITÓRIA ÉPICA!";
-            modalH2.style.color = "#4CAF50";
+            modalH2.style.color = "#e32526";
 
             modalBtn.innerText = "LEVANTAR PRÉMIO";
-            modalBtn.style.background = "#d32f2f";
+            modalBtn.style.background = "#e32526";
             modalBtn.classList.add("pulse-button"); // Add pulsing effect
 
             // Redirect on click
@@ -375,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Carla F.", "Tiago A.", "Luísa M.", "Gonçalo B.", "Beatriz D.",
         "André S.", "Inês C.", "Bruno V.", "Mariana T.", "Diogo R."
     ];
-    const prizes = ["VOUCHER 500€", "IPHONE 15", "VOUCHER 500€", "PS5", "MACBOOK AIR"];
+    const prizes = ["KIT COMPLETO PROZIS", "FRITADEIRA DIGITAL", "KIT COMPLETO PROZIS", "WHEY + CREATINA", "BCAA 8:1:1"];
     const winnersList = document.getElementById('winnersList');
 
     // Track recent names to avoid duplicates on screen

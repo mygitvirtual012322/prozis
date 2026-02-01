@@ -1,12 +1,12 @@
 :root {
-    --bg-gradient: radial-gradient(circle at center, #EB0000, #990000);
-    --rim-color: #2c1e16;
+    --bg-gradient: radial-gradient(circle at center, #222222 0%, #000000 100%);
+    --rim-color: #1a1a1a;
     --light-color: #fff;
-    --light-glow: 0 0 10px #fff, 0 0 20px #ffaa00;
+    --light-glow: 0 0 10px #fff, 0 0 20px #e32526;
     --segment-bg: #ffffff;
-    --text-color: #d32f2f;
-    --button-yellow: #ffcc00;
-    --button-shadow: 0 5px 0 #b38f00;
+    --text-color: #e32526;
+    --button-color: #e32526;
+    --button-shadow: 0 5px 0 #990000;
 }
 
 * {
@@ -17,7 +17,7 @@
 
 body {
     background: var(--bg-gradient);
-    font-family: 'Open Sans', 'Arial', sans-serif;
+    font-family: 'Exo 2', 'Arial', sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -34,17 +34,17 @@ body {
 .scarcity-bar {
     width: 100%;
     max-width: 600px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     margin-bottom: 20px;
-    border-radius: 50px;
+    border-radius: 5px;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
     font-size: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -57,17 +57,17 @@ body {
 
 .progress-track {
     flex: 1;
-    height: 8px;
+    height: 6px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
     max-width: 150px;
 }
 
 .progress-fill {
     height: 100%;
-    background: #4CAF50;
-    box-shadow: 0 0 10px #4CAF50;
+    background: #e32526;
+    box-shadow: 0 0 10px #e32526;
     transition: width 1s ease;
 }
 
@@ -81,16 +81,16 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    background: rgba(255, 0, 0, 0.2);
+    background: rgba(227, 37, 38, 0.2);
     padding: 5px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 0, 0, 0.4);
+    border-radius: 5px;
+    border: 1px solid rgba(227, 37, 38, 0.4);
 }
 
 #offer-timer {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Exo 2', monospace;
     font-weight: 700;
-    color: #ff4444;
+    color: #e32526;
 }
 
 /* --- MAIN CONTAINER --- */
@@ -106,7 +106,7 @@ body {
     position: relative;
     width: 350px;
     height: 350px;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8));
 }
 
 /* --- RIM & LIGHTS --- */
@@ -116,12 +116,13 @@ body {
     height: 100%;
     border-radius: 50%;
     background-color: var(--rim-color);
-    padding: 15px;
+    padding: 12px;
     /* Thickness of the rim */
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px solid #333;
 }
 
 .lights-container {
@@ -136,24 +137,17 @@ body {
 
 .light-bulb {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background: var(--light-color);
     border-radius: 50%;
     box-shadow: var(--light-glow);
     top: 50%;
     left: 50%;
-    margin-left: -4px;
-    /* Center horizontally (half of 8px) */
-    margin-top: -4px;
-    /* Center vertically */
-    /* transform-origin removed; handled by JS translate */
-    /* Offset to push to rim radius approx (350/2 - padding/2) */
+    margin-left: -3px;
+    margin-top: -3px;
     animation: blink 1s infinite alternate;
 }
-
-/* Example generic positioning, will settle via JS or specific CSS logic if fixed count */
-/* For CSS-only precise positioning we commonly use SASS loops, but here we can rely on JS to populate */
 
 /* --- WHEEL --- */
 .roulette-wheel {
@@ -166,19 +160,15 @@ body {
     overflow: hidden;
     /* Dramatically slow spindown for realism */
     transition: transform 6s cubic-bezier(0.2, 0.8, 0.15, 1);
-    /* Heavy wheel feel */
-    /* Default spin ease */
+    /* We need physical background color slices. */
+    background: repeating-conic-gradient(from 0deg,
+            #ffffff 0deg 45deg,
+            #111111 45deg 90deg);
+    border: 2px solid #000;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Segments */
-/* Old segment block removed */
-
-/* Correction for segment content to align with the slice center */
-/* REVISED SEGMENT TECHNIQUE:
-   Centered segments. 
-   Container is 100px wide, 50% height (radius).
-   Pivots at bottom center.
-*/
 .roulette-wheel .segment {
     position: absolute;
     width: 100px;
@@ -190,13 +180,12 @@ body {
     transform: rotate(calc(45deg * (var(--i) - 1) + 22.5deg));
     z-index: 1;
     pointer-events: none;
-    /* Removed flex centering that was failing */
 }
 
 .segment-content {
     /* Absolute positioning for rigid placement at rim */
     position: absolute;
-    top: 5px;
+    top: 10px;
     left: 0;
     width: 100%;
     text-align: center;
@@ -210,47 +199,44 @@ body {
 }
 
 .prize-img {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
     margin-top: 5px;
     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
 }
 
-/* REVISED SEGMENT TECHNIQUE:
-   The .segment divs are absolutely centered, then rotated.
-   The content inside is pushed out.
-*/
-/* Removed old segment style block to avoid conflict */
-
-/* We need physical background color slices.
-   Let's use a conic gradient on the wheel itself for background
-   and use divs just for text/icons.
-*/
-.roulette-wheel {
-    background: repeating-conic-gradient(from 0deg,
-            #2e7d32 0deg 45deg,
-            #ffffff 45deg 90deg);
-    border: 4px solid #fff;
-    /* Inner white ring */
-}
-
-/* Merged */
-
 .segment span {
-    font-size: 12px;
-    font-weight: 900;
+    font-size: 11px;
+    font-weight: 800;
     color: var(--text-color);
+    /* Defaults to red for white segments */
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.segment.win-segment span {
-    color: #ffffff !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+/* Handle alternating text colors via overrides in HTML or structural CSS */
+/* Segments 1, 3, 5, 7 are WIN segments and odd (1-based index) -> NOW WHITE BACKGROUND */
+/* Segments 2, 4, 6, 8 are LOSS segments and even -> NOW BLACK BACKGROUND */
+
+/* Segment 1 (White BG) -> Text Black or Red */
+.segment[style*="--i:1"] span,
+.segment[style*="--i:3"] span,
+.segment[style*="--i:5"] span,
+.segment[style*="--i:7"] span {
+    color: #e32526 !important;
 }
 
-/* .icon class removed, replaced by .prize-img */
+/* Segment 2 (Black BG) -> Text White */
+.segment[style*="--i:2"] span,
+.segment[style*="--i:4"] span,
+.segment[style*="--i:6"] span,
+.segment[style*="--i:8"] span {
+    color: #fff !important;
+}
+
 
 /* --- CENTER PIECE --- */
 .center-piece {
@@ -258,70 +244,73 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-    background: #000;
+    width: 50px;
+    height: 50px;
+    background: #111;
     border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
+    border: 2px solid #333;
 }
 
 .center-inner {
-    width: 40px;
-    height: 40px;
-    background: radial-gradient(circle, #ffaa00, #ff6600);
+    width: 20px;
+    height: 20px;
+    background: #e32526;
     border-radius: 50%;
-    border: 3px solid #000;
+    border: 2px solid #000;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 /* --- POINTER --- */
 .pointer {
     position: absolute;
-    top: -15px;
-    /* Slight overlap */
+    top: -18px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 30px solid #d32f2f;
-    /* Red triangle pointing down */
-    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 25px solid #e32526;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.5));
     z-index: 20;
 }
 
 /* --- BUTTON --- */
 .spin-button {
-    background: var(--button-yellow);
+    background: var(--button-color);
     border: none;
-    padding: 15px 40px;
-    font-size: 20px;
-    font-weight: 900;
-    color: #b30000;
-    border-radius: 50px;
+    padding: 16px 45px;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    border-radius: 5px;
+    /* Less rounded for Prozis sleek look */
     box-shadow: var(--button-shadow);
     cursor: pointer;
     text-transform: uppercase;
-    animation: pulse 1.5s infinite;
-    transition: transform 0.1s;
+    animation: pulse 2s infinite;
+    transition: all 0.2s;
+    letter-spacing: 1px;
 }
 
 .spin-button:active {
     transform: translateY(4px);
-    box-shadow: 0 1px 0 #b38f00;
+    box-shadow: 0 1px 0 #990000;
 }
 
 /* --- MODAL --- */
 .modal-content {
     background: white;
     padding: 30px;
-    border-radius: 15px;
+    border-radius: 5px;
+    /* Sharper corners */
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
     width: 90%;
     /* Responsive width */
     max-width: 450px;
@@ -335,23 +324,23 @@ body {
 /* Pulsing button effect for the winner action */
 .pulse-button {
     animation: urgent-pulse 1.5s infinite;
-    box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7);
+    box-shadow: 0 0 0 0 rgba(227, 37, 38, 0.7);
 }
 
 @keyframes urgent-pulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7);
+        box-shadow: 0 0 0 0 rgba(227, 37, 38, 0.7);
     }
 
     70% {
         transform: scale(1.05);
-        box-shadow: 0 0 0 15px rgba(211, 47, 47, 0);
+        box-shadow: 0 0 0 15px rgba(227, 37, 38, 0);
     }
 
     100% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(211, 47, 47, 0);
+        box-shadow: 0 0 0 0 rgba(227, 37, 38, 0);
     }
 }
 
@@ -365,11 +354,13 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.85);
+    /* Darker overlay */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
+    backdrop-filter: blur(5px);
 }
 
 /* --- SOCIAL PROOF --- */
@@ -385,10 +376,10 @@ body {
     color: white;
     text-align: center;
     font-size: 13px;
-    opacity: 0.85;
+    opacity: 0.6;
     margin-bottom: 20px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     font-weight: 600;
 }
 
@@ -399,47 +390,50 @@ body {
 }
 
 .winner-card {
-    background: white;
-    border-radius: 12px;
+    background: #1a1a1a;
+    /* Dark cards */
+    border-radius: 4px;
     padding: 16px 20px;
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     animation: slideInUp 0.5s ease-out;
-    border-left: 4px solid #4CAF50;
+    border-left: 3px solid #e32526;
     transition: transform 0.2s, box-shadow 0.2s;
+    color: white;
 }
 
 .winner-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
 .winner-avatar {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 40px;
+    height: 40px;
+    background: #333;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     flex-shrink: 0;
+    border: 1px solid #444;
 }
 
 .winner-info {
     flex: 1;
     font-size: 14px;
-    color: #333;
+    color: #ddd;
     line-height: 1.4;
 }
 
 .winner-time {
     font-size: 12px;
-    color: #888;
+    color: #666;
     white-space: nowrap;
 }
 
@@ -450,71 +444,7 @@ body {
 }
 
 /* --- OFFICIAL FOOTER --- */
-.worten-footer {
-    width: 100%;
-    background: #111;
-    color: #999;
-    padding: 50px 20px 30px;
-    margin-top: auto;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 13px;
-}
-
-.footer-logo {
-    display: block;
-    width: 140px;
-    margin: 0 auto 40px;
-    opacity: 0.8;
-    filter: brightness(0) invert(1);
-}
-
-.footer-content {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
-}
-
-.footer-col h4 {
-    color: white;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.footer-col ul {
-    list-style: none;
-}
-
-.footer-col ul li {
-    margin-bottom: 10px;
-}
-
-.footer-col ul li a {
-    color: #999;
-    text-decoration: none;
-    transition: color 0.2s;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.footer-col ul li a:hover {
-    color: #d32f2f;
-}
-
-.footer-bottom {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding-top: 30px;
-    border-top: 1px solid #222;
-    text-align: center;
-    font-size: 11px;
-    color: #666;
-}
+/* (Inline styles in HTML override this mostly, but good to keep clean) */
 
 /* --- LEGAL MODALS --- */
 .legal-modal {
@@ -524,7 +454,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.9);
     z-index: 2000;
     justify-content: center;
     align-items: center;
@@ -537,7 +467,7 @@ body {
     max-width: 600px;
     max-height: 80vh;
     overflow-y: auto;
-    border-radius: 8px;
+    border-radius: 5px;
     padding: 30px;
     position: relative;
     font-family: Arial, sans-serif;
@@ -577,7 +507,7 @@ body {
     }
 
     50% {
-        transform: scale(1.05);
+        transform: scale(1.02);
     }
 
     100% {
@@ -587,19 +517,19 @@ body {
 
 @keyframes blink {
     0% {
-        opacity: 0.5;
+        opacity: 0.3;
+        box-shadow: 0 0 5px #fff;
     }
 
     100% {
         opacity: 1;
-        box-shadow: 0 0 15px #fff;
+        box-shadow: 0 0 15px #e32526;
     }
 }
 
 /* Responsive */
 @media (max-width: 400px) {
     /* .roulette-wrapper width logic handled by JS scale */
-    /* .light-bulb transform logic handled by JS translate */
 }
 
 /* --- DYNAMIC BACKGROUND --- */
@@ -617,9 +547,11 @@ body {
 .floating-icon {
     position: absolute;
     font-size: 24px;
-    opacity: 0.15;
+    opacity: 0.05;
+    /* Fainter */
     animation: floatUp 15s linear infinite;
     user-select: none;
+    color: white;
 }
 
 @keyframes floatUp {
@@ -629,11 +561,11 @@ body {
     }
 
     10% {
-        opacity: 0.15;
+        opacity: 0.05;
     }
 
     90% {
-        opacity: 0.15;
+        opacity: 0.05;
     }
 
     100% {
